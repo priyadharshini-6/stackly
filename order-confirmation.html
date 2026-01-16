@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly | Order Confirmed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: { 
+                    colors: { primary: '#4F46E5', secondary: '#10B981', dark: '#0F172A' },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'scale-in': 'scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+                    },
+                    keyframes: {
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        }
+                    }
+                } 
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body class="bg-gray-50 text-slate-600 font-sans antialiased h-screen flex items-center justify-center">
+
+    <div class="max-w-lg w-full px-4">
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12 text-center relative overflow-hidden animate-scale-in">
+            
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+            <div class="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-500 relative">
+                <div class="absolute inset-0 bg-emerald-100 rounded-full animate-ping opacity-25"></div>
+                <i class="ph ph-check-circle text-6xl"></i>
+            </div>
+
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-2">Order Confirmed!</h1>
+            <p class="text-gray-500 mb-8">Thank you for subscribing, Alex. Your first box is being curated as we speak.</p>
+
+            <div class="bg-gray-50 rounded-xl p-4 mb-8 text-left border border-gray-200">
+                <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-4">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Order #</span>
+                    <span class="font-mono font-bold text-slate-900">STK-88291</span>
+                </div>
+                <div class="flex gap-4 items-center mb-4">
+                    <div class="w-12 h-12 bg-white rounded border border-gray-200 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 object-cover rounded">
+                    </div>
+                    <div>
+                        <p class="font-bold text-slate-900 text-sm">Tech Nomad Box</p>
+                        <p class="text-xs text-gray-500">Monthly Plan</p>
+                    </div>
+                    <div class="ml-auto font-bold text-slate-900">$49.00</div>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Shipping to:</span>
+                    <span class="text-slate-900 font-medium text-right">123 Innovation Dr,<br>San Francisco, CA</span>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-900 mb-4">What happens next?</h3>
+            <div class="flex justify-center gap-2 mb-8">
+                <div class="flex flex-col items-center gap-1 w-20">
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold"><i class="ph ph-check"></i></div>
+                    <span class="text-[10px] font-bold text-primary">Order</span>
+                </div>
+                <div class="h-0.5 w-8 bg-gray-200 mt-4"></div>
+                <div class="flex flex-col items-center gap-1 w-20 opacity-50">
+                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-xs font-bold">2</div>
+                    <span class="text-[10px] font-bold text-gray-500">Ship</span>
+                </div>
+                <div class="h-0.5 w-8 bg-gray-200 mt-4"></div>
+                <div class="flex flex-col items-center gap-1 w-20 opacity-50">
+                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-xs font-bold">3</div>
+                    <span class="text-[10px] font-bold text-gray-500">Enjoy</span>
+                </div>
+            </div>
+
+            <a href="subscriber-dashboard.html" class="block w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition shadow-lg transform hover:-translate-y-1">
+                Go to Dashboard
+            </a>
+            <a href="index.html" class="inline-block mt-4 text-sm text-gray-500 hover:text-primary font-medium">Back to Home</a>
+
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#4F46E5', '#10B981', '#F59E0B']
+            });
+        });
+    </script>
+</body>
+</html>

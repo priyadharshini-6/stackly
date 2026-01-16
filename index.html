@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly | Curated Tech & Lifestyle Subscription</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#4F46E5', // Indigo 600
+                        secondary: '#10B981', // Emerald 500
+                        dark: '#0F172A',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #4F46E5 0%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-600 font-sans antialiased" x-data="{ mobileMenuOpen: false, scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+
+    <nav :class="scrolled ? 'bg-white/90 backdrop-blur shadow-sm py-4' : 'bg-transparent py-6'" class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-105 transition">S</div>
+                    <span class="font-bold text-2xl text-slate-900 tracking-tight">Stackly.</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#how-it-works" class="text-sm font-medium hover:text-primary transition">How it Works</a>
+                    <a href="service-details.html" class="text-sm font-medium hover:text-primary transition">Current Box</a>
+                    <a href="#reviews" class="text-sm font-medium hover:text-primary transition">Reviews</a>
+                </div>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="auth.html" class="text-sm font-bold text-slate-900 hover:text-primary transition">Log In</a>
+                    <a href="service-details.html" class="px-6 py-3 rounded-full bg-dark text-white text-sm font-bold hover:bg-slate-800 transition shadow-lg shadow-slate-900/20 hover:-translate-y-0.5">
+                        Get Started
+                    </a>
+                </div>
+
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-900 focus:outline-none">
+                    <i class="ph ph-list text-3xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div x-show="mobileMenuOpen" x-transition class="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 p-4 shadow-xl flex flex-col gap-4">
+            <a href="service-details.html" class="font-medium p-2 hover:bg-gray-50 rounded-lg">Current Box</a>
+            <a href="auth.html" class="font-medium p-2 hover:bg-gray-50 rounded-lg">Log In</a>
+            <a href="service-details.html" class="w-full text-center bg-primary text-white py-3 rounded-lg font-bold">Get Started</a>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="blob bg-indigo-400 w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2 animate-float"></div>
+        <div class="blob bg-pink-300 w-80 h-80 rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 animate-float-delayed"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto mb-12 animate-fade-in-up">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-indigo-100 shadow-sm mb-8">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs font-bold text-indigo-900 tracking-wide uppercase">October Box Shipping Now</span>
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                    Curated gear for your <br>
+                    <span class="text-gradient">creative workflow.</span>
+                </h1>
+                <p class="text-lg lg:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Stackly delivers a monthly box of premium tech accessories, desk essentials, and productivity tools directly to your door.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="service-details.html" class="px-8 py-4 rounded-full bg-primary text-white font-bold text-lg hover:bg-indigo-700 transition shadow-xl shadow-indigo-500/30 flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                        View The Box <i class="ph ph-arrow-right"></i>
+                    </a>
+                    <a href="#how-it-works" class="px-8 py-4 rounded-full bg-white text-slate-700 border border-gray-200 font-bold text-lg hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                        <i class="ph ph-play-circle text-xl"></i> How it Works
+                    </a>
+                </div>
+            </div>
+
+            <div class="relative max-w-5xl mx-auto mt-16 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="bg-gray-900 rounded-3xl p-4 shadow-2xl border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80&w=1600" class="rounded-2xl w-full opacity-90 hover:opacity-100 transition duration-700">
+                </div>
+                <div class="absolute -bottom-8 -left-8 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 hidden md:flex items-center gap-3 animate-float">
+                    <div class="bg-emerald-100 p-3 rounded-xl text-emerald-600"><i class="ph ph-check-circle text-2xl"></i></div>
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold uppercase">Satisfaction</p>
+                        <p class="font-bold text-gray-900">100% Guaranteed</p>
+                    </div>
+                </div>
+                <div class="absolute -top-8 -right-8 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 hidden md:flex items-center gap-3 animate-float-delayed">
+                    <div class="flex -space-x-3">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?background=random&name=A">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?background=random&name=B">
+                        <div class="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold">+2k</div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold uppercase">Community</p>
+                        <p class="font-bold text-gray-900">Join the Club</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-10 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
+            <div>
+                <h3 class="text-4xl font-extrabold text-slate-900 mb-1">50k+</h3>
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-wider">Boxes Shipped</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-extrabold text-slate-900 mb-1">$1.2M</h3>
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-wider">Subscriber Savings</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-extrabold text-slate-900 mb-1">4.9/5</h3>
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-wider">Average Rating</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-extrabold text-slate-900 mb-1">120+</h3>
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-wider">Brand Partners</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-base text-primary font-bold tracking-wide uppercase mb-2">Simple Process</h2>
+                <p class="text-4xl font-extrabold text-slate-900 mb-4">How Stackly Works</p>
+                <p class="text-lg text-gray-500">We do the heavy lifting of research and curation. You just enjoy the unboxing.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 relative overflow-hidden group hover:-translate-y-2 transition duration-300">
+                    <div class="absolute -right-6 -top-6 w-32 h-32 bg-indigo-50 rounded-full group-hover:scale-150 transition duration-500"></div>
+                    <div class="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl font-bold mb-6 relative z-10">1</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 relative z-10">Subscribe & Save</h3>
+                    <p class="text-gray-500 leading-relaxed relative z-10">Choose a monthly or annual plan. Members get 40-60% off retail prices on every box.</p>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 relative overflow-hidden group hover:-translate-y-2 transition duration-300">
+                    <div class="absolute -right-6 -top-6 w-32 h-32 bg-emerald-50 rounded-full group-hover:scale-150 transition duration-500"></div>
+                    <div class="w-14 h-14 bg-secondary text-white rounded-2xl flex items-center justify-center text-2xl font-bold mb-6 relative z-10">2</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 relative z-10">We Curate</h3>
+                    <p class="text-gray-500 leading-relaxed relative z-10">Our team partners with premium brands to build a cohesive theme (e.g., "Deep Work", "Coffee Shop Nomad").</p>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 relative overflow-hidden group hover:-translate-y-2 transition duration-300">
+                    <div class="absolute -right-6 -top-6 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-150 transition duration-500"></div>
+                    <div class="w-14 h-14 bg-orange-500 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mb-6 relative z-10">3</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 relative z-10">Unbox & Thrive</h3>
+                    <p class="text-gray-500 leading-relaxed relative z-10">Receive your box, rate your items in the dashboard, and let our AI improve your future selections.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-dark rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary rounded-full mix-blend-overlay filter blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3"></div>
+                
+                <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+                    <div>
+                        <span class="text-accent font-bold tracking-wider uppercase mb-4 block">This Month's Theme</span>
+                        <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">The "Deep Work" Collection</h2>
+                        <p class="text-indigo-200 text-lg mb-8 leading-relaxed">
+                            Unlock your peak productivity with a mechanical macropad, noise-canceling earbuds, and a smart productivity timer. Total value: <span class="text-white font-bold">$185</span>.
+                        </p>
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-center gap-3 text-indigo-100"><i class="ph ph-check-circle text-secondary text-xl"></i> Limited Edition Topography Mat</li>
+                            <li class="flex items-center gap-3 text-indigo-100"><i class="ph ph-check-circle text-secondary text-xl"></i> Programmable Macro Pad</li>
+                            <li class="flex items-center gap-3 text-indigo-100"><i class="ph ph-check-circle text-secondary text-xl"></i> Pomodoro Timer Block</li>
+                        </ul>
+                        <a href="service-details.html" class="inline-block px-8 py-4 bg-white text-dark font-bold rounded-full hover:bg-gray-100 transition transform hover:scale-105">
+                            Reserve This Box
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=800&q=80" class="rounded-3xl shadow-2xl border border-white/10 rotate-2 hover:rotate-0 transition duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-extrabold text-center text-slate-900 mb-12">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4" x-data="{ active: null }">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button @click="active = (active === 1 ? null : 1)" class="w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 hover:bg-gray-50 transition">
+                        <span>Can I skip a month?</span>
+                        <i class="ph ph-caret-down transition-transform duration-300" :class="active === 1 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="active === 1" x-collapse>
+                        <div class="px-6 pb-4 text-gray-500 leading-relaxed">
+                            Absolutely. You can skip any month via your subscriber dashboard with a single click. No penalties, and you keep your streak.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button @click="active = (active === 2 ? null : 2)" class="w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 hover:bg-gray-50 transition">
+                        <span>What if I don't like an item?</span>
+                        <i class="ph ph-caret-down transition-transform duration-300" :class="active === 2 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="active === 2" x-collapse>
+                        <div class="px-6 pb-4 text-gray-500 leading-relaxed">
+                            We offer a satisfaction guarantee. If an item is damaged or not to your liking, contact support within 14 days for a replacement or credit.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button @click="active = (active === 3 ? null : 3)" class="w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 hover:bg-gray-50 transition">
+                        <span>Do you ship internationally?</span>
+                        <i class="ph ph-caret-down transition-transform duration-300" :class="active === 3 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="active === 3" x-collapse>
+                        <div class="px-6 pb-4 text-gray-500 leading-relaxed">
+                            Currently, we ship to the US, Canada, UK, and Australia. We are working on expanding to the EU soon!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2 md:col-span-1">
+                    <span class="text-2xl font-bold tracking-tight">Stackly.</span>
+                    <p class="mt-4 text-slate-400 text-sm leading-relaxed">
+                        Curating joy, one box at a time. Join the revolution of discovery.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-6 tracking-wider">Product</h4>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li><a href="service-details.html" class="hover:text-white transition">Current Box</a></li>
+                        <li><a href="#" class="hover:text-white transition">Past Collections</a></li>
+                        <li><a href="#" class="hover:text-white transition">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-6 tracking-wider">Company</h4>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Press</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-6 tracking-wider">Legal</h4>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li><a href="#" class="hover:text-white transition">Privacy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+                <p>&copy; 2024 Stackly Inc. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <i class="ph ph-twitter-logo text-xl hover:text-white cursor-pointer transition"></i>
+                    <i class="ph ph-instagram-logo text-xl hover:text-white cursor-pointer transition"></i>
+                    <i class="ph ph-tiktok-logo text-xl hover:text-white cursor-pointer transition"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

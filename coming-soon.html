@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly | Launching Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: {
+                    colors: { primary: '#4F46E5', dark: '#0F172A' },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark text-white h-screen overflow-hidden relative flex flex-col" 
+      x-data="timer()">
+
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow" style="animation-delay: 3s;"></div>
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+    </div>
+
+    <header class="relative z-10 p-8 flex justify-between items-center w-full max-w-7xl mx-auto">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-white text-xl">S</div>
+            <span class="font-bold text-2xl tracking-tight">Stackly.</span>
+        </div>
+        <a href="contact.html" class="text-sm font-medium text-gray-400 hover:text-white transition">Contact Us</a>
+    </header>
+
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md shadow-lg animate-bounce">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10B981]"></span>
+            <span class="text-xs font-bold tracking-widest uppercase text-gray-300">System Upgrade In Progress</span>
+        </div>
+
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
+            Unboxing the Future.
+        </h1>
+        
+        <p class="text-lg md:text-xl text-indigo-200/80 mb-12 max-w-xl mx-auto leading-relaxed">
+            We are curating the ultimate tech experience. Join the waitlist to get early access and a <span class="text-white font-bold border-b border-primary">20% lifetime discount</span>.
+        </p>
+
+        <div class="grid grid-cols-4 gap-4 md:gap-12 mb-16">
+            <div class="flex flex-col items-center">
+                <span class="text-4xl md:text-6xl font-mono font-bold" x-text="days">00</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Days</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-4xl md:text-6xl font-mono font-bold" x-text="hours">00</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Hours</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-4xl md:text-6xl font-mono font-bold" x-text="minutes">00</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Mins</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-4xl md:text-6xl font-mono font-bold text-primary" x-text="seconds">00</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Secs</span>
+            </div>
+        </div>
+
+        <form class="w-full max-w-md flex flex-col sm:flex-row gap-3 relative group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+            <input type="email" placeholder="Enter your email address" required
+                   class="flex-1 bg-dark border border-white/20 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition relative z-10">
+            <button type="submit" class="px-8 py-4 bg-white text-dark font-bold rounded-xl hover:bg-gray-100 transition shadow-xl relative z-10 whitespace-nowrap">
+                Notify Me
+            </button>
+        </form>
+
+    </main>
+
+    <footer class="relative z-10 p-8 text-center">
+        <p class="text-gray-500 text-sm">&copy; 2024 Stackly Inc. All rights reserved.</p>
+        <div class="flex justify-center gap-6 mt-4">
+            <a href="#" class="text-gray-500 hover:text-white transition"><i class="ph ph-twitter-logo text-xl"></i></a>
+            <a href="#" class="text-gray-500 hover:text-white transition"><i class="ph ph-instagram-logo text-xl"></i></a>
+            <a href="#" class="text-gray-500 hover:text-white transition"><i class="ph ph-linkedin-logo text-xl"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        function timer() {
+            return {
+                endTime: new Date().getTime() + (14 * 24 * 60 * 60 * 1000), // 14 days from now
+                timeLeft: 0,
+                days: '00', hours: '00', minutes: '00', seconds: '00',
+                init() {
+                    this.update();
+                    setInterval(() => this.update(), 1000);
+                },
+                update() {
+                    const now = new Date().getTime();
+                    this.timeLeft = this.endTime - now;
+                    if (this.timeLeft > 0) {
+                        this.days = String(Math.floor(this.timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                        this.hours = String(Math.floor((this.timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                        this.minutes = String(Math.floor((this.timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                        this.seconds = String(Math.floor((this.timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

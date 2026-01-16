@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly | Page Not Found</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: { colors: { primary: '#4F46E5', dark: '#0F172A' } }
+            }
+        }
+    </script>
+    <style>
+        .float-box { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        .shadow-blob {
+            animation: shadowScale 6s ease-in-out infinite;
+        }
+        @keyframes shadowScale {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(0.8); opacity: 0.1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col items-center justify-center overflow-hidden text-slate-600">
+
+    <div class="text-center px-4 max-w-lg">
+        
+        <div class="relative w-64 h-64 mx-auto mb-8">
+            <div class="float-box relative z-10 w-full h-full bg-white rounded-3xl shadow-2xl border border-gray-100 flex items-center justify-center">
+                <i class="ph ph-package text-8xl text-indigo-200"></i>
+                <div class="absolute -top-6 -right-6 w-20 h-20 bg-red-50 rounded-2xl border border-red-100 flex items-center justify-center text-red-500 font-extrabold text-2xl shadow-lg rotate-12">
+                    404
+                </div>
+            </div>
+            <div class="shadow-blob absolute -bottom-10 left-1/2 -translate-x-1/2 w-40 h-4 bg-black rounded-[100%] blur-md"></div>
+        </div>
+
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Lost in transit?</h1>
+        <p class="text-lg text-slate-500 mb-10">
+            The page you are looking for has been moved, removed, or never existed. It looks like this box arrived empty.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="index.html" class="px-8 py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                <i class="ph ph-house text-lg"></i> Go Home
+            </a>
+            <a href="contact.html" class="px-8 py-3.5 bg-white border border-gray-200 text-slate-700 font-bold rounded-xl hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                <i class="ph ph-life-buoy text-lg"></i> Help Center
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

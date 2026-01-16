@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly | Inventory Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: { colors: { primary: '#4F46E5', dark: '#0F172A' } }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-slate-600 font-sans antialiased" x-data="{ sidebarOpen: false, modalOpen: false }">
+
+    <div class="lg:hidden flex justify-between items-center bg-dark text-white p-4 shadow-sm fixed top-0 w-full z-30">
+        <div class="text-xl font-bold tracking-tight">Stackly Admin</div>
+        <button @click="sidebarOpen = !sidebarOpen" class="focus:outline-none">
+            <i class="ph ph-list text-2xl"></i>
+        </button>
+    </div>
+
+    <div class="flex h-screen overflow-hidden pt-16 lg:pt-0">
+
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed z-20 inset-y-0 left-0 w-64 bg-dark text-gray-400 transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 flex flex-col">
+            <div class="h-20 flex items-center px-6 border-b border-gray-800 hidden lg:flex">
+                <span class="text-white font-bold text-xl tracking-wide flex items-center gap-2">
+                    <div class="w-6 h-6 rounded bg-primary"></div> Stackly.
+                </span>
+            </div>
+            <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
+                <p class="px-3 text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Overview</p>
+                <a href="admin-dashboard.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:text-white hover:bg-white/5 rounded-lg transition"><i class="ph ph-chart-line-up text-lg"></i> Analytics</a>
+                
+                <p class="px-3 text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 mt-8">Management</p>
+                <a href="admin-inventory.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium bg-primary text-white rounded-lg transition"><i class="ph ph-cube text-lg"></i> Inventory</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:text-white hover:bg-white/5 rounded-lg transition"><i class="ph ph-ticket text-lg"></i> Discounts</a>
+            </nav>
+        </aside>
+
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-10 lg:hidden backdrop-blur-sm"></div>
+
+        <main class="flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-8">
+            <div class="max-w-7xl mx-auto">
+                
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Inventory</h1>
+                        <p class="text-sm text-gray-500">Manage stock for upcoming boxes.</p>
+                    </div>
+                    <button @click="modalOpen = true" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 transition flex items-center gap-2 shadow-lg shadow-indigo-200">
+                        <i class="ph ph-plus"></i> Add Item
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><i class="ph ph-check-circle text-2xl"></i></div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">In Stock</p>
+                            <p class="text-xl font-extrabold text-slate-900">142 Items</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                        <div class="p-3 bg-orange-50 text-orange-600 rounded-lg"><i class="ph ph-warning-circle text-2xl"></i></div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">Low Stock</p>
+                            <p class="text-xl font-extrabold text-slate-900">12 Items</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                        <div class="p-3 bg-red-50 text-red-600 rounded-lg"><i class="ph ph-x-circle text-2xl"></i></div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">Out of Stock</p>
+                            <p class="text-xl font-extrabold text-slate-900">3 Items</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 flex gap-4">
+                        <div class="relative flex-1 max-w-md">
+                            <i class="ph ph-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" placeholder="Search items..." class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary">
+                        </div>
+                        <select class="border border-gray-200 rounded-lg px-4 py-2 text-sm bg-white focus:outline-none">
+                            <option>All Categories</option>
+                            <option>Tech</option>
+                            <option>Lifestyle</option>
+                        </select>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-600">
+                            <thead class="bg-gray-50 text-xs uppercase font-bold text-gray-500">
+                                <tr>
+                                    <th class="px-6 py-4">Product Name</th>
+                                    <th class="px-6 py-4">SKU</th>
+                                    <th class="px-6 py-4">Category</th>
+                                    <th class="px-6 py-4">Stock</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50 transition group">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-lg object-cover">
+                                        <span class="font-bold text-gray-900">Topography Desk Mat</span>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs">DM-BLK-001</td>
+                                    <td class="px-6 py-4">Lifestyle</td>
+                                    <td class="px-6 py-4 font-bold text-gray-900">450</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">In Stock</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-primary"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition group">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1587829741301-dc798b91a603?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-lg object-cover">
+                                        <span class="font-bold text-gray-900">Mech Fidget Key</span>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs">MF-ALU-022</td>
+                                    <td class="px-6 py-4">Tech</td>
+                                    <td class="px-6 py-4 font-bold text-orange-600">15</td>
+                                    <td class="px-6 py-4"><span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">Low Stock</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-primary"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition group">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1586769852044-692d6e37d67e?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-lg object-cover">
+                                        <span class="font-bold text-gray-900">Cable Organizer</span>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs">CO-WGT-005</td>
+                                    <td class="px-6 py-4">Tech</td>
+                                    <td class="px-6 py-4 font-bold text-red-600">0</td>
+                                    <td class="px-6 py-4"><span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Out of Stock</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-primary"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div x-show="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
+        <div x-show="modalOpen" class="fixed inset-0 bg-black/50 backdrop-blur-sm" @click="modalOpen = false"></div>
+        <div x-show="modalOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-4" 
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             class="bg-white rounded-2xl shadow-2xl max-w-lg w-full relative z-10 p-6">
+            
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Add New Product</h2>
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Product Name</label>
+                    <input type="text" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">SKU</label>
+                        <input type="text" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:border-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Stock Quantity</label>
+                        <input type="number" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:border-primary outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Category</label>
+                    <select class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:border-primary outline-none">
+                        <option>Tech</option>
+                        <option>Lifestyle</option>
+                        <option>Apparel</option>
+                    </select>
+                </div>
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" @click="modalOpen = false" class="px-4 py-2 text-gray-600 font-bold hover:bg-gray-100 rounded-lg text-sm transition">Cancel</button>
+                    <button type="button" @click="modalOpen = false" class="px-4 py-2 bg-primary text-white font-bold rounded-lg text-sm hover:bg-indigo-700 transition">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
