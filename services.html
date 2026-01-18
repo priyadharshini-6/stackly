@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,11 @@
         }
     </script>
     <script>
+        // Check Theme
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
         else document.documentElement.classList.remove('dark');
+
+        // Check RTL
         if (localStorage.dir === 'rtl') document.documentElement.setAttribute('dir', 'rtl');
         else document.documentElement.setAttribute('dir', 'ltr');
 
@@ -32,10 +35,16 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
+
         function toggleRTL() {
             const html = document.documentElement;
-            if (html.getAttribute('dir') === 'rtl') { html.setAttribute('dir', 'ltr'); localStorage.setItem('dir', 'ltr'); }
-            else { html.setAttribute('dir', 'rtl'); localStorage.setItem('dir', 'rtl'); }
+            if (html.getAttribute('dir') === 'rtl') {
+                html.setAttribute('dir', 'ltr');
+                localStorage.setItem('dir', 'ltr');
+            } else {
+                html.setAttribute('dir', 'rtl');
+                localStorage.setItem('dir', 'rtl');
+            }
         }
     </script>
 </head>
@@ -49,19 +58,12 @@
                     <span class="font-bold text-2xl text-slate-900 dark:text-white">Stackly.</span>
                 </a>
 
-                <div class="hidden md:flex items-center gap-8">
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 text-sm font-bold text-primary focus:outline-none">
-                            Home <i class="ph ph-caret-down"></i>
-                        </button>
-                        <div class="absolute top-full left-0 w-40 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-2 group-hover:translate-y-0 dark:bg-slate-800 dark:border-slate-700">
-                            <a href="index.html" class="block px-4 py-3 text-sm font-medium hover:bg-gray-50 rounded-t-xl dark:text-gray-300 dark:hover:bg-slate-700">Home Style 1</a>
-                            <a href="home-2.html" class="block px-4 py-3 text-sm font-medium hover:bg-gray-50 rounded-b-xl dark:text-gray-300 dark:hover:bg-slate-700">Home Style 2</a>
-                        </div>
-                    </div>
-                    <a href="services.html" class="text-sm font-medium hover:text-primary transition">Services</a>
-                    <a href="pricing.html" class="text-sm font-medium hover:text-primary transition">Pricing</a>
-                    <a href="contact.html" class="text-sm font-medium hover:text-primary transition">Contact</a>
+                <div class="hidden md:flex items-center gap-8" id="desktop-menu">
+                    <a href="index.html" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Home</a>
+                    <a href="home-2.html" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Home 2</a>
+                    <a href="services.html" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Services</a>
+                    <a href="pricing.html" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Pricing</a>
+                    <a href="contact.html" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Contact</a>
                 </div>
 
                 <div class="hidden md:flex items-center gap-4">
@@ -69,10 +71,13 @@
                         <i class="ph ph-moon dark:hidden"></i>
                         <i class="ph ph-sun hidden dark:inline"></i>
                     </button>
+                    
                     <button onclick="toggleRTL()" class="p-2 rounded-full hover:bg-gray-100 text-slate-600 dark:text-gray-300 dark:hover:bg-slate-800 transition" title="Toggle RTL">
                         <i class="ph ph-translate"></i>
                     </button>
+
                     <div class="h-6 w-px bg-gray-200 dark:bg-slate-700"></div>
+                    
                     <a href="auth.html" class="text-sm font-bold hover:text-primary dark:text-white">Log In</a>
                     <a href="auth.html" class="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold hover:bg-indigo-600 transition shadow-lg shadow-indigo-500/30">Get Started</a>
                 </div>
@@ -101,44 +106,32 @@
     <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-8">
         
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition group dark:bg-slate-800 dark:border-slate-700">
-            <div class="h-48 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-            </div>
+            <div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
             <div class="p-8">
-                <div class="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center text-primary mb-4 dark:bg-indigo-900/30">
-                    <i class="ph ph-laptop text-2xl"></i>
-                </div>
+                <div class="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center text-primary mb-4 dark:bg-indigo-900/30"><i class="ph ph-laptop text-2xl"></i></div>
                 <h3 class="text-xl font-bold text-slate-900 mb-2 dark:text-white">The Tech Nomad</h3>
-                <p class="text-gray-500 mb-6 text-sm dark:text-gray-400">For the remote worker who needs portability and power. Includes cables, chargers, and portable peripherals.</p>
-                <a href="service-details.html" class="text-primary font-bold hover:underline">View Details &rarr;</a>
+                <p class="text-gray-500 mb-6 text-sm dark:text-gray-400">For the remote worker who needs portability and power.</p>
+                <a href="service-details.html?id=nomad" class="text-primary font-bold hover:underline">View Details &rarr;</a>
             </div>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition group dark:bg-slate-800 dark:border-slate-700">
-            <div class="h-48 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-            </div>
+            <div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
             <div class="p-8">
-                <div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 mb-4 dark:bg-emerald-900/30">
-                    <i class="ph ph-plant text-2xl"></i>
-                </div>
+                <div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 mb-4 dark:bg-emerald-900/30"><i class="ph ph-plant text-2xl"></i></div>
                 <h3 class="text-xl font-bold text-slate-900 mb-2 dark:text-white">The Zen Desk</h3>
-                <p class="text-gray-500 mb-6 text-sm dark:text-gray-400">Focus on aesthetics and calm. Includes plants, lighting, organizers, and analog productivity tools.</p>
-                <a href="service-details.html" class="text-primary font-bold hover:underline">View Details &rarr;</a>
+                <p class="text-gray-500 mb-6 text-sm dark:text-gray-400">Focus on aesthetics, plants, and calm analog tools.</p>
+                <a href="service-details.html?id=zen" class="text-primary font-bold hover:underline">View Details &rarr;</a>
             </div>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition group dark:bg-slate-800 dark:border-slate-700">
-            <div class="h-48 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-            </div>
+            <div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
             <div class="p-8">
-                <div class="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center text-orange-600 mb-4 dark:bg-orange-900/30">
-                    <i class="ph ph-game-controller text-2xl"></i>
-                </div>
+                <div class="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center text-orange-600 mb-4 dark:bg-orange-900/30"><i class="ph ph-game-controller text-2xl"></i></div>
                 <h3 class="text-xl font-bold text-slate-900 mb-2 dark:text-white">The Streamer</h3>
-                <p class="text-gray-500 mb-6 text-sm dark:text-gray-400">Gear for content creators. Includes mics, lights, capture cards, and stream deck accessories.</p>
-                <a href="service-details.html" class="text-primary font-bold hover:underline">View Details &rarr;</a>
+                <p class="text-gray-500 mb-6 text-sm dark:text-gray-400">Gear for content creators. Mics, lights, and decks.</p>
+                <a href="service-details.html?id=streamer" class="text-primary font-bold hover:underline">View Details &rarr;</a>
             </div>
         </div>
 
@@ -186,6 +179,8 @@
             </div>
         </div>
     </footer>
-<script src="nav-highlight.js"></script>
+
+    <script src="nav-highlight.js"></script>
+
 </body>
 </html>
