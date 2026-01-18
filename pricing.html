@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stackly | Gift a Box</title>
+    <title>Stackly | Pricing Plans</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -40,7 +38,7 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 text-slate-600 font-sans antialiased dark:bg-slate-900 dark:text-gray-300" x-data="{ mobileMenuOpen: false, selectedPlan: '3-months' }">
+<body class="bg-gray-50 text-slate-600 font-sans antialiased dark:bg-slate-900 dark:text-gray-300" x-data="{ mobileMenuOpen: false }">
 
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur border-b border-gray-100 dark:bg-slate-900/90 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,95 +92,57 @@
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto px-4 py-32">
-        
-        <div class="text-center mb-12">
-            <span class="text-primary font-bold tracking-wider uppercase text-sm mb-2 block dark:text-indigo-400">Gift Subscription</span>
-            <h1 class="text-4xl font-extrabold text-slate-900 mb-4 dark:text-white">Give the gift of discovery.</h1>
-            <p class="text-lg text-gray-500 dark:text-gray-400">Perfect for the tech lover in your life. No recurring charges for you.</p>
-        </div>
+    <div class="max-w-7xl mx-auto px-6 py-32 text-center">
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-4 dark:text-white">Simple, Transparent Pricing</h1>
+        <p class="text-lg text-gray-500 mb-12 dark:text-gray-400">No hidden fees. Cancel anytime.</p>
 
-        <h2 class="text-xl font-bold text-slate-900 mb-6 dark:text-white">1. Choose Duration</h2>
-        <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             
-            <div @click="selectedPlan = '1-month'" 
-                 class="bg-white rounded-2xl p-6 border-2 cursor-pointer transition relative dark:bg-slate-800"
-                 :class="selectedPlan === '1-month' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-gray-100 hover:border-gray-200 dark:border-slate-700 dark:hover:border-slate-600'">
-                <h3 class="font-bold text-slate-900 text-lg dark:text-white">1 Month</h3>
-                <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">A nice little surprise.</p>
-                <p class="text-3xl font-extrabold text-slate-900 dark:text-white">$55</p>
-                <div class="mt-4 flex items-center gap-2 text-xs font-bold text-gray-400">
-                    <i class="ph ph-package"></i> One-time payment
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 hover:border-primary transition shadow-sm hover:shadow-xl relative group dark:bg-slate-800 dark:border-slate-700">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Starter</h3>
+                <div class="my-6">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white">$39</span><span class="text-gray-400">/mo</span>
                 </div>
+                <p class="text-sm text-gray-500 mb-6 dark:text-gray-400">Perfect for casual tech enthusiasts.</p>
+                <a href="checkout.html" class="block w-full py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition">Choose Starter</a>
+                <ul class="text-left mt-8 space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                    <li class="flex gap-2"><i class="ph ph-check text-primary"></i> 3 Premium Items</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-primary"></i> Standard Shipping</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-primary"></i> Community Access</li>
+                </ul>
             </div>
 
-            <div @click="selectedPlan = '3-months'" 
-                 class="bg-white rounded-2xl p-6 border-2 cursor-pointer transition relative overflow-hidden dark:bg-slate-800"
-                 :class="selectedPlan === '3-months' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-gray-100 hover:border-gray-200 dark:border-slate-700 dark:hover:border-slate-600'">
-                <div class="absolute top-0 right-0 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">POPULAR</div>
-                <h3 class="font-bold text-slate-900 text-lg dark:text-white">3 Months</h3>
-                <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">The seasonal experience.</p>
-                <p class="text-3xl font-extrabold text-slate-900 dark:text-white">$150</p>
-                <p class="text-xs text-green-600 font-bold mt-1 dark:text-green-400">Save $15</p>
-                <div class="mt-4 flex items-center gap-2 text-xs font-bold text-gray-400">
-                    <i class="ph ph-package"></i> One-time payment
+            <div class="bg-dark text-white rounded-2xl p-8 border-2 border-primary shadow-2xl relative transform md:-translate-y-4 dark:bg-slate-900">
+                <div class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-xl">MOST POPULAR</div>
+                <h3 class="text-xl font-bold">Enthusiast</h3>
+                <div class="my-6">
+                    <span class="text-4xl font-extrabold">$49</span><span class="text-gray-400">/mo</span>
                 </div>
+                <p class="text-indigo-200 mb-6 text-sm">The best value for serious setups.</p>
+                <a href="checkout.html" class="block w-full py-3 bg-primary text-white font-bold rounded-xl hover:bg-indigo-600 transition shadow-lg shadow-indigo-500/50">Choose Enthusiast</a>
+                <ul class="text-left mt-8 space-y-3 text-gray-300 text-sm">
+                    <li class="flex gap-2"><i class="ph ph-check text-secondary"></i> 6 Premium Items</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-secondary"></i> Priority Free Shipping</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-secondary"></i> Early Access</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-secondary"></i> Exclusive Discord Role</li>
+                </ul>
             </div>
 
-            <div @click="selectedPlan = '6-months'" 
-                 class="bg-white rounded-2xl p-6 border-2 cursor-pointer transition relative dark:bg-slate-800"
-                 :class="selectedPlan === '6-months' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-gray-100 hover:border-gray-200 dark:border-slate-700 dark:hover:border-slate-600'">
-                <h3 class="font-bold text-slate-900 text-lg dark:text-white">6 Months</h3>
-                <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">For the serious collector.</p>
-                <p class="text-3xl font-extrabold text-slate-900 dark:text-white">$280</p>
-                <p class="text-xs text-green-600 font-bold mt-1 dark:text-green-400">Save $50</p>
-                <div class="mt-4 flex items-center gap-2 text-xs font-bold text-gray-400">
-                    <i class="ph ph-package"></i> One-time payment
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 hover:border-primary transition shadow-sm hover:shadow-xl relative group dark:bg-slate-800 dark:border-slate-700">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Collector</h3>
+                <div class="my-6">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white">$99</span><span class="text-gray-400">/mo</span>
                 </div>
+                <p class="text-sm text-gray-500 mb-6 dark:text-gray-400">For the ultimate tech hoarder.</p>
+                <a href="checkout.html" class="block w-full py-3 border-2 border-gray-200 text-slate-600 font-bold rounded-xl hover:border-dark hover:text-dark transition dark:border-slate-600 dark:text-gray-300 dark:hover:border-white dark:hover:text-white">Choose Collector</a>
+                <ul class="text-left mt-8 space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                    <li class="flex gap-2"><i class="ph ph-check text-primary"></i> 10+ Premium Items</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-primary"></i> Next-Day Shipping</li>
+                    <li class="flex gap-2"><i class="ph ph-check text-primary"></i> 1-on-1 Setup Consultation</li>
+                </ul>
             </div>
+
         </div>
-
-        <h2 class="text-xl font-bold text-slate-900 mb-6 dark:text-white">2. Personalize it</h2>
-        <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm grid md:grid-cols-2 gap-8 mb-12 dark:bg-slate-800 dark:border-slate-700">
-            
-            <form class="space-y-4">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1 dark:text-gray-300">Recipient's Name</label>
-                    <input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary dark:bg-slate-700 dark:border-slate-600 dark:text-white" placeholder="e.g. Alex Smith">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1 dark:text-gray-300">Recipient's Email</label>
-                    <input type="email" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary dark:bg-slate-700 dark:border-slate-600 dark:text-white" placeholder="We'll send the redemption code here">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1 dark:text-gray-300">Gift Message</label>
-                    <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-white" placeholder="Write a note..."></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1 dark:text-gray-300">Send Date</label>
-                    <input type="date" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary dark:bg-slate-700 dark:border-slate-600 dark:text-white">
-                </div>
-            </form>
-
-            <div class="bg-gray-50 rounded-xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden dark:bg-slate-700">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-200 rounded-full blur-3xl opacity-50 -mr-10 -mt-10 dark:bg-indigo-900"></div>
-                <div class="relative z-10 w-full bg-white p-6 rounded-lg shadow-lg border border-gray-100 transform rotate-1 dark:bg-slate-800 dark:border-slate-600">
-                    <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl mb-4">S</div>
-                    <h3 class="font-bold text-lg mb-2 dark:text-white">You've got a gift!</h3>
-                    <p class="text-sm text-gray-500 mb-4 dark:text-gray-400">Someone special sent you a 3-month subscription to Stackly.</p>
-                    <div class="bg-gray-100 py-2 rounded text-xs font-mono font-bold tracking-widest text-slate-700 mb-4 dark:bg-slate-700 dark:text-gray-300">CODE: GIFT-XYZ-123</div>
-                    <button class="w-full py-2 bg-slate-900 text-white text-xs font-bold rounded dark:bg-primary">Redeem Now</button>
-                </div>
-                <p class="text-xs text-gray-400 mt-4 uppercase tracking-wide font-bold">Email Preview</p>
-            </div>
-        </div>
-
-        <div class="flex justify-end">
-            <a href="checkout.html" class="px-8 py-4 bg-primary text-white font-bold rounded-xl text-lg hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 dark:shadow-none">
-                Continue to Checkout
-            </a>
-        </div>
-
     </div>
 
     <footer class="bg-slate-900 text-white pt-16 pb-8 border-t border-slate-800">
@@ -227,6 +187,6 @@
             </div>
         </div>
     </footer>
-
+<script src="nav-highlight.js"></script>
 </body>
 </html>

@@ -14,6 +14,7 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 fontFamily: {
                     sans: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -35,6 +36,20 @@
             }
         }
     </script>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
     <style>
         [x-cloak] { display: none !important; }
         .blob { position: absolute; filter: blur(80px); opacity: 0.4; z-index: -1; }
@@ -42,7 +57,7 @@
     </style>
 </head>
 
-<body class="bg-white text-slate-600 font-sans antialiased"
+<body class="bg-white text-slate-600 font-sans antialiased dark:bg-slate-900 dark:text-gray-300 transition-colors duration-300"
       x-data="{ 
           view: 'home',             
           dashTab: 'overview',      
@@ -62,54 +77,57 @@
       }">
 
     <nav x-show="['home', 'about', 'contact', 'blog', 'blog-detail', 'service', 'gift', 'terms', 'privacy'].includes(view)" 
-         class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+         class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 dark:bg-slate-900/90 dark:border-slate-800 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="#" @click.prevent="navigate('home')" class="flex items-center gap-2 group">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">S</div>
-                    <span class="font-bold text-2xl text-slate-900 tracking-tight">Stackly.</span>
+                    <span class="font-bold text-2xl text-slate-900 dark:text-white tracking-tight">Stackly.</span>
                 </a>
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="#" @click.prevent="navigate('home')" class="text-sm font-medium hover:text-primary transition">Home</a>
-                    <a href="#" @click.prevent="navigate('service')" class="text-sm font-medium hover:text-primary transition">Current Box</a>
-                    <a href="#" @click.prevent="navigate('blog')" class="text-sm font-medium hover:text-primary transition">Journal</a>
-                    <a href="#" @click.prevent="navigate('about')" class="text-sm font-medium hover:text-primary transition">About</a>
+                    <a href="#" @click.prevent="navigate('home')" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Home</a>
+                    <a href="#" @click.prevent="navigate('service')" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Current Box</a>
+                    <a href="#" @click.prevent="navigate('blog')" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">Journal</a>
+                    <a href="#" @click.prevent="navigate('about')" class="text-sm font-medium hover:text-primary transition dark:text-gray-300 dark:hover:text-white">About</a>
                 </div>
                 <div class="hidden md:flex items-center gap-4">
-                    <button @click="navigate('auth')" class="text-sm font-bold text-slate-900 hover:text-primary transition">Log In</button>
-                    <button @click="navigate('service')" class="px-6 py-3 rounded-full bg-dark text-white text-sm font-bold hover:bg-slate-800 transition shadow-lg">Get Started</button>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 text-slate-600 dark:text-gray-300 dark:hover:bg-slate-800 transition">
+                        <i class="ph ph-moon dark:hidden"></i><i class="ph ph-sun hidden dark:inline"></i>
+                    </button>
+                    <button @click="navigate('auth')" class="text-sm font-bold text-slate-900 hover:text-primary transition dark:text-white">Log In</button>
+                    <button @click="navigate('service')" class="px-6 py-3 rounded-full bg-dark text-white text-sm font-bold hover:bg-slate-800 transition shadow-lg dark:bg-white dark:text-slate-900 dark:hover:bg-gray-200">Get Started</button>
                 </div>
-                <button @click="mobileMenu = !mobileMenu" class="md:hidden text-slate-900 focus:outline-none"><i class="ph ph-list text-3xl"></i></button>
+                <button @click="mobileMenu = !mobileMenu" class="md:hidden text-slate-900 dark:text-white focus:outline-none"><i class="ph ph-list text-3xl"></i></button>
             </div>
         </div>
-        <div x-show="mobileMenu" x-collapse class="md:hidden bg-white border-b border-gray-100 shadow-xl">
+        <div x-show="mobileMenu" x-collapse class="md:hidden bg-white border-b border-gray-100 shadow-xl dark:bg-slate-800 dark:border-slate-700">
             <div class="p-4 flex flex-col gap-4">
-                <a href="#" @click.prevent="navigate('home')" class="font-medium p-2 hover:bg-gray-50 rounded-lg">Home</a>
-                <a href="#" @click.prevent="navigate('service')" class="font-medium p-2 hover:bg-gray-50 rounded-lg">Boxes</a>
-                <a href="#" @click.prevent="navigate('auth')" class="font-medium p-2 hover:bg-gray-50 rounded-lg">Log In</a>
+                <a href="#" @click.prevent="navigate('home')" class="font-medium p-2 hover:bg-gray-50 rounded-lg dark:text-gray-300 dark:hover:bg-slate-700">Home</a>
+                <a href="#" @click.prevent="navigate('service')" class="font-medium p-2 hover:bg-gray-50 rounded-lg dark:text-gray-300 dark:hover:bg-slate-700">Boxes</a>
+                <a href="#" @click.prevent="navigate('auth')" class="font-medium p-2 hover:bg-gray-50 rounded-lg dark:text-gray-300 dark:hover:bg-slate-700">Log In</a>
                 <button @click="navigate('service')" class="w-full text-center bg-primary text-white py-3 rounded-lg font-bold">Get Started</button>
             </div>
         </div>
     </nav>
 
     <div x-show="view === 'home'" x-transition.opacity class="pt-20">
-        <section class="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden">
-            <div class="blob bg-indigo-400 w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2 animate-float"></div>
-            <div class="blob bg-pink-300 w-80 h-80 rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 animate-float" style="animation-delay: 2s;"></div>
+        <section class="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden dark:bg-slate-900">
+            <div class="blob bg-indigo-400 w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2 animate-float dark:opacity-20"></div>
+            <div class="blob bg-pink-300 w-80 h-80 rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 animate-float dark:opacity-20" style="animation-delay: 2s;"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-indigo-100 shadow-sm mb-8 animate-fade-in">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-indigo-100 shadow-sm mb-8 animate-fade-in dark:bg-slate-800 dark:border-slate-700">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-xs font-bold text-indigo-900 uppercase">October Box Shipping Now</span>
+                    <span class="text-xs font-bold text-indigo-900 uppercase dark:text-indigo-300">October Box Shipping Now</span>
                 </div>
-                <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 animate-fade-in">
+                <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6 animate-fade-in dark:text-white">
                     Curated gear for your <br> <span class="text-gradient">creative workflow.</span>
                 </h1>
-                <p class="text-lg lg:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in">
-                    Stackly delivers a monthly box of premium tech accessories, desk essentials, and productivity tools directly to your door.
+                <p class="text-lg lg:text-xl text-slate-500 mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in dark:text-gray-400">
+                    Stackly delivers a monthly box of premium tech accessories, desk essentials, and productivity tools directly to your door. Stop searching, start creating.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
                     <button @click="navigate('service')" class="px-8 py-4 rounded-full bg-primary text-white font-bold text-lg hover:bg-indigo-700 transition shadow-xl hover:-translate-y-1">View The Box</button>
-                    <button @click="navigate('gift')" class="px-8 py-4 rounded-full bg-white text-slate-700 border border-gray-200 font-bold text-lg hover:bg-gray-50 transition"><i class="ph ph-gift text-xl mr-2"></i> Gift a Box</button>
+                    <button @click="navigate('gift')" class="px-8 py-4 rounded-full bg-white text-slate-700 border border-gray-200 font-bold text-lg hover:bg-gray-50 transition dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700"><i class="ph ph-gift text-xl mr-2"></i> Gift a Box</button>
                 </div>
                 <div class="relative max-w-5xl mx-auto mt-16 animate-slide-up">
                     <div class="bg-gray-900 rounded-3xl p-4 shadow-2xl border border-gray-800">
@@ -119,154 +137,25 @@
             </div>
         </section>
         
-        <section class="py-10 bg-white border-y border-gray-100">
+        <section class="py-10 bg-white border-y border-gray-100 dark:bg-slate-800 dark:border-slate-700">
             <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div><h3 class="text-4xl font-extrabold text-slate-900">50k+</h3><p class="text-sm font-bold text-gray-400 uppercase">Shipped</p></div>
-                <div><h3 class="text-4xl font-extrabold text-slate-900">$1.2M</h3><p class="text-sm font-bold text-gray-400 uppercase">Savings</p></div>
-                <div><h3 class="text-4xl font-extrabold text-slate-900">4.9/5</h3><p class="text-sm font-bold text-gray-400 uppercase">Rating</p></div>
-                <div><h3 class="text-4xl font-extrabold text-slate-900">120+</h3><p class="text-sm font-bold text-gray-400 uppercase">Partners</p></div>
+                <div><h3 class="text-4xl font-extrabold text-slate-900 dark:text-white">50k+</h3><p class="text-sm font-bold text-gray-400 uppercase">Shipped</p></div>
+                <div><h3 class="text-4xl font-extrabold text-slate-900 dark:text-white">$1.2M</h3><p class="text-sm font-bold text-gray-400 uppercase">Savings</p></div>
+                <div><h3 class="text-4xl font-extrabold text-slate-900 dark:text-white">4.9/5</h3><p class="text-sm font-bold text-gray-400 uppercase">Rating</p></div>
+                <div><h3 class="text-4xl font-extrabold text-slate-900 dark:text-white">120+</h3><p class="text-sm font-bold text-gray-400 uppercase">Partners</p></div>
             </div>
         </section>
 
-        <section class="py-24 bg-gray-50 text-center">
+        <section class="py-24 bg-gray-50 text-center dark:bg-slate-900">
             <div class="max-w-3xl mx-auto px-6">
-                <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Ready to upgrade your setup?</h2>
-                <button @click="navigate('auth')" class="px-8 py-4 bg-dark text-white font-bold rounded-full hover:bg-slate-800 transition shadow-lg">Join Stackly Today</button>
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-6 dark:text-white">Ready to upgrade your setup?</h2>
+                <button @click="navigate('auth')" class="px-8 py-4 bg-dark text-white font-bold rounded-full hover:bg-slate-800 transition shadow-lg dark:bg-white dark:text-slate-900">Join Stackly Today</button>
                 <div class="mt-8 text-sm text-gray-400"><a href="#" @click.prevent="navigate('terms')" class="hover:underline">Terms</a> &bull; <a href="#" @click.prevent="navigate('privacy')" class="hover:underline">Privacy</a></div>
             </div>
         </section>
     </div>
 
-    <div x-show="view === 'service'" class="pt-20">
-        <div class="max-w-7xl mx-auto px-4 py-12 lg:grid lg:grid-cols-12 lg:gap-12">
-            <div class="lg:col-span-7 mb-8 lg:mb-0">
-                <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 mb-4 border border-gray-200">
-                    <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover">
-                </div>
-                <div class="grid grid-cols-3 gap-4">
-                    <img src="https://images.unsplash.com/photo-1526406915894-7bcd65f60845?auto=format&fit=crop&q=80&w=400" class="rounded-xl border hover:border-primary cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=400" class="rounded-xl border hover:border-primary cursor-pointer">
-                    <div class="bg-gray-100 rounded-xl flex items-center justify-center cursor-pointer"><i class="ph ph-play-circle text-3xl"></i></div>
-                </div>
-            </div>
-            <div class="lg:col-span-5 sticky top-24 h-fit">
-                <div class="flex items-center gap-2 mb-2"><span class="bg-indigo-100 text-primary text-xs font-bold px-2 py-1 rounded">BEST SELLER</span></div>
-                <h1 class="text-3xl font-extrabold text-slate-900 mb-2">The Tech Nomad Box</h1>
-                <p class="text-gray-500 mb-6">Essential gear for remote workers. $150+ value in every box.</p>
-                
-                <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-xl relative overflow-hidden mb-6">
-                    <div class="flex items-end gap-2 mb-4">
-                        <span class="text-5xl font-extrabold text-slate-900">$49</span>
-                        <span class="text-gray-400 mb-1">/month</span>
-                    </div>
-                    <button @click="navigate('checkout')" class="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg">Subscribe Now</button>
-                    <p class="text-center text-xs text-gray-400 mt-3"><i class="ph ph-truck"></i> Free Shipping &bull; Cancel Anytime</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="flex gap-4 p-4 border border-gray-100 rounded-xl bg-white">
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0">
-                            <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-lg">
-                        </div>
-                        <div><h4 class="font-bold text-slate-900">Mechanical Fidget Key</h4><p class="text-xs text-gray-500">Satisfying clicks, CNC aluminum.</p></div>
-                    </div>
-                    <div class="flex gap-4 p-4 border border-gray-100 rounded-xl bg-white">
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0"><img src="https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=100" class="w-full h-full object-cover rounded-lg"></div>
-                        <div><h4 class="font-bold text-slate-900">Topography Desk Mat</h4><p class="text-xs text-gray-500">900x400mm waterproof pad.</p></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div x-show="view === 'terms'" x-cloak class="pt-20 min-h-screen">
-        <div class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
-            <aside class="md:col-span-3 hidden md:block">
-                <div class="sticky top-32">
-                    <h3 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Table of Contents</h3>
-                    <ul class="space-y-3 text-sm border-l border-gray-200 pl-4">
-                        <li><a href="#" class="text-primary font-bold border-l-2 border-primary -ml-[18px] pl-4 block">1. Acceptance</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">2. Subscriptions</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">3. Shipping & Returns</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">4. Cancellation</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">5. Liability</a></li>
-                    </ul>
-                </div>
-            </aside>
-            <main class="md:col-span-9 animate-fade-in">
-                <div class="mb-8">
-                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Terms of Service</h1>
-                    <p class="text-gray-500 bg-gray-100 px-3 py-1 rounded inline-block text-sm">Last Updated: October 1, 2024</p>
-                </div>
-                <article class="prose prose-lg prose-indigo text-gray-600 font-serif max-w-none">
-                    <p>Welcome to Stackly. Please read these Terms of Service ("Terms") carefully before using the Stackly website or subscribing to our services.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">1. Acceptance of Terms</h3>
-                    <p>By accessing or using any part of the site, you agree to be bound by these Terms. If you do not agree to all the terms and conditions of this agreement, then you may not access the website or use any services.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">2. Subscription & Billing</h3>
-                    <p><strong>2.1 Recurring Billing.</strong> By starting a subscription, you authorize us to charge you a recurring monthly or annual subscription fee at the then-current rate.</p>
-                    <p><strong>2.2 Payment Methods.</strong> You must provide a current, valid, accepted method of payment. We may update your payment method using information provided by payment service providers.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">3. Shipping & Returns</h3>
-                    <p>We ship boxes on the 15th of every month. Delivery times vary by location. If you receive a damaged item, you must notify us within 14 days of receipt to be eligible for a replacement.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">4. Cancellation Policy</h3>
-                    <p>You may cancel your subscription at any time via your Account Dashboard. Cancellations made after the 1st of the month will go into effect for the following month's billing cycle.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">5. Limitation of Liability</h3>
-                    <p>In no case shall Stackly, our directors, officers, employees, affiliates, agents, contractors, interns, suppliers, service providers or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind.</p>
-                    <hr class="my-10 border-gray-200">
-                    <p class="text-sm">Questions about the Terms of Service should be sent to us at <a href="mailto:legal@stackly.com" class="text-primary font-sans font-bold no-underline">legal@stackly.com</a>.</p>
-                </article>
-            </main>
-        </div>
-    </div>
-
-    <div x-show="view === 'privacy'" x-cloak class="pt-20 min-h-screen">
-        <div class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
-            <aside class="md:col-span-3 hidden md:block">
-                <div class="sticky top-32">
-                    <h3 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Sections</h3>
-                    <ul class="space-y-3 text-sm border-l border-gray-200 pl-4">
-                        <li><a href="#" class="text-primary font-bold border-l-2 border-primary -ml-[18px] pl-4 block">1. Info We Collect</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">2. How We Use It</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">3. Cookies</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">4. Security</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-slate-900 block">5. Your Rights</a></li>
-                    </ul>
-                </div>
-            </aside>
-            <main class="md:col-span-9 animate-fade-in">
-                <div class="mb-8">
-                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Privacy Policy</h1>
-                    <p class="text-gray-500 bg-gray-100 px-3 py-1 rounded inline-block text-sm">Last Updated: October 1, 2024</p>
-                </div>
-                <article class="prose prose-lg prose-indigo text-gray-600 font-serif max-w-none">
-                    <p>At Stackly, we respect your privacy. This policy explains how we collect, use, and protect your personal information when you visit our website or subscribe to our boxes.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">1. Information We Collect</h3>
-                    <p>We collect information you provide directly to us, such as when you create an account, update your profile, make a purchase, or communicate with us.</p>
-                    <ul>
-                        <li><strong>Account Information:</strong> Name, email address, password, and shipping address.</li>
-                        <li><strong>Payment Information:</strong> We do not store full credit card numbers. Payments are processed via Stripe.</li>
-                        <li><strong>Usage Data:</strong> We collect data on how you interact with our dashboard to improve curation.</li>
-                    </ul>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">2. How We Use Information</h3>
-                    <p>We use the information we collect to provide, maintain, and improve our services, including to:</p>
-                    <ul>
-                        <li>Process transactions and send related information, including confirmations and invoices.</li>
-                        <li>Personalize your box experience based on your feedback and ratings.</li>
-                        <li>Send you technical notices, updates, security alerts, and support messages.</li>
-                    </ul>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">3. Cookies and Tracking</h3>
-                    <p>We use cookies to help us remember and process the items in your shopping cart and understand your preferences based on previous or current site activity, which enables us to provide you with improved services.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">4. Data Security</h3>
-                    <p>We implement a variety of security measures to maintain the safety of your personal information. Your personal information is contained behind secured networks and is only accessible by a limited number of persons who have special access rights.</p>
-                    <h3 class="font-sans text-slate-900 font-bold mt-10">5. Your Rights</h3>
-                    <p>You have the right to access, correct, or delete your personal data. You can manage your account settings directly in the <a href="#" @click.prevent="navigate('dashboard')" class="text-primary underline">Dashboard</a> or contact us to delete your account entirely.</p>
-                    <hr class="my-10 border-gray-200">
-                    <p class="text-sm">If you have any questions about this Privacy Policy, please contact us at <a href="mailto:privacy@stackly.com" class="text-primary font-sans font-bold no-underline">privacy@stackly.com</a>.</p>
-                </article>
-            </main>
-        </div>
-    </div>
-
-    <div x-show="view === 'auth'" x-cloak x-transition class="fixed inset-0 z-50 bg-white flex" x-data="{ mode: 'login' }">
+    <div x-show="view === 'auth'" x-cloak x-transition.opacity.duration.300ms class="fixed inset-0 z-50 bg-white flex dark:bg-slate-900" x-data="{ mode: 'login' }">
         <div class="hidden lg:flex w-1/2 bg-dark relative items-center justify-center overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-slate-900"></div>
             <div class="absolute w-[500px] h-[500px] bg-primary rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-float"></div>
@@ -277,29 +166,29 @@
             </div>
         </div>
         <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 md:px-24 relative">
-            <button @click="navigate('home')" class="absolute top-8 left-8 text-sm font-bold text-gray-500 hover:text-dark flex items-center gap-2"><i class="ph ph-arrow-left"></i> Back</button>
+            <button @click="navigate('home')" class="absolute top-8 left-8 text-sm font-bold text-gray-500 hover:text-dark flex items-center gap-2 dark:text-gray-400 dark:hover:text-white"><i class="ph ph-arrow-left"></i> Back</button>
             <div class="max-w-sm w-full mx-auto">
                 <div x-show="mode === 'forgot'" x-transition>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mb-2">Reset Password</h2>
-                    <p class="text-gray-500 mb-8">Enter your email for instructions.</p>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-2 dark:text-white">Reset Password</h2>
+                    <p class="text-gray-500 mb-8 dark:text-gray-400">Enter your email for instructions.</p>
                     <form @submit.prevent="mode = 'login'; notify('Reset email sent!')">
-                        <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 mb-4 focus:border-primary outline-none" placeholder="Email" required>
+                        <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 mb-4 focus:border-primary outline-none dark:bg-slate-800 dark:border-slate-700 dark:text-white" placeholder="Email" required>
                         <button class="w-full py-3.5 bg-primary text-white font-bold rounded-xl">Send Reset Link</button>
                     </form>
-                    <button @click="mode = 'login'" class="mt-6 text-sm text-center w-full text-gray-500 hover:text-primary">Back to Login</button>
+                    <button @click="mode = 'login'" class="mt-6 text-sm text-center w-full text-gray-500 hover:text-primary dark:text-gray-400">Back to Login</button>
                 </div>
                 <div x-show="mode !== 'forgot'" x-transition>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mb-2" x-text="mode === 'login' ? 'Sign In' : 'Create Account'"></h2>
-                    <p class="text-gray-500 mb-8">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-2 dark:text-white" x-text="mode === 'login' ? 'Sign In' : 'Create Account'"></h2>
+                    <p class="text-gray-500 mb-8 dark:text-gray-400">
                         <span x-text="mode === 'login' ? 'New user?' : 'Already have an account?'"></span>
                         <button @click="mode = mode === 'login' ? 'register' : 'login'" class="text-primary font-bold hover:underline" x-text="mode === 'login' ? 'Sign up' : 'Log in'"></button>
                     </p>
                     <form @submit.prevent="navigate('dashboard'); notify('Logged in successfully!')" class="space-y-4">
-                        <div x-show="mode === 'register'"><input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none" placeholder="Full Name"></div>
-                        <input type="email" value="alex@stackly.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none" placeholder="Email">
-                        <input type="password" value="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none" placeholder="Password">
+                        <div x-show="mode === 'register'"><input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none dark:bg-slate-800 dark:border-slate-700 dark:text-white" placeholder="Full Name"></div>
+                        <input type="email" value="alex@stackly.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none dark:bg-slate-800 dark:border-slate-700 dark:text-white" placeholder="Email">
+                        <input type="password" value="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none dark:bg-slate-800 dark:border-slate-700 dark:text-white" placeholder="Password">
                         <div class="flex justify-between items-center" x-show="mode === 'login'">
-                            <label class="flex items-center gap-2 text-sm text-gray-600"><input type="checkbox" class="rounded text-primary"> Remember me</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"><input type="checkbox" class="rounded text-primary"> Remember me</label>
                             <button type="button" @click="mode = 'forgot'" class="text-sm font-bold text-primary hover:underline">Forgot?</button>
                         </div>
                         <button type="submit" class="w-full py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg">Continue</button>
@@ -310,139 +199,236 @@
         </div>
     </div>
 
-    <div x-show="view === 'checkout'" class="min-h-screen bg-gray-50">
-        <div class="bg-white border-b border-gray-200 py-4 px-8 flex justify-between items-center">
-            <span class="font-bold text-xl text-slate-900">Stackly.</span>
+    <div x-show="view === 'checkout'" class="min-h-screen bg-gray-50 dark:bg-slate-900">
+        <div class="bg-white border-b border-gray-200 py-4 px-8 flex justify-between items-center dark:bg-slate-800 dark:border-slate-700">
+            <span class="font-bold text-xl text-slate-900 dark:text-white">Stackly.</span>
             <span class="text-emerald-600 font-bold text-sm flex items-center gap-1"><i class="ph ph-lock-key"></i> Secure</span>
         </div>
         <div class="max-w-6xl mx-auto px-4 py-8 lg:grid lg:grid-cols-12 lg:gap-12">
             <div class="lg:col-span-7 space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
-                    <h2 class="font-bold text-lg mb-4">Shipping Address</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 dark:bg-slate-800 dark:border-slate-700">
+                    <h2 class="font-bold text-lg mb-4 dark:text-white">Shipping Address</h2>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" placeholder="First Name" class="col-span-1 p-3 border rounded-lg bg-gray-50">
-                        <input type="text" placeholder="Last Name" class="col-span-1 p-3 border rounded-lg bg-gray-50">
-                        <input type="text" placeholder="Address" class="col-span-2 p-3 border rounded-lg bg-gray-50">
+                        <input type="text" placeholder="First Name" class="col-span-1 p-3 border rounded-lg bg-gray-50 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                        <input type="text" placeholder="Last Name" class="col-span-1 p-3 border rounded-lg bg-gray-50 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                        <input type="text" placeholder="Address" class="col-span-2 p-3 border rounded-lg bg-gray-50 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
-                    <h2 class="font-bold text-lg mb-4">Payment</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 dark:bg-slate-800 dark:border-slate-700">
+                    <h2 class="font-bold text-lg mb-4 dark:text-white">Payment</h2>
                     <div class="flex gap-4 mb-4">
-                        <button class="flex-1 py-3 border-2 border-primary bg-indigo-50 text-primary font-bold rounded-lg flex items-center justify-center gap-2"><i class="ph ph-credit-card"></i> Card</button>
-                        <button class="flex-1 py-3 border border-gray-200 text-gray-600 font-bold rounded-lg flex items-center justify-center gap-2"><i class="ph ph-paypal-logo"></i> PayPal</button>
+                        <button class="flex-1 py-3 border-2 border-primary bg-indigo-50 text-primary font-bold rounded-lg flex items-center justify-center gap-2 dark:bg-indigo-900/30"><i class="ph ph-credit-card"></i> Card</button>
+                        <button class="flex-1 py-3 border border-gray-200 text-gray-600 font-bold rounded-lg flex items-center justify-center gap-2 dark:border-slate-600 dark:text-gray-400"><i class="ph ph-paypal-logo"></i> PayPal</button>
                     </div>
-                    <input type="text" placeholder="Card Number" class="w-full p-3 border rounded-lg bg-gray-50 mb-4 font-mono">
+                    <input type="text" placeholder="Card Number" class="w-full p-3 border rounded-lg bg-gray-50 mb-4 font-mono dark:bg-slate-700 dark:border-slate-600 dark:text-white">
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" placeholder="MM/YY" class="p-3 border rounded-lg bg-gray-50 font-mono">
-                        <input type="text" placeholder="CVC" class="p-3 border rounded-lg bg-gray-50 font-mono">
+                        <input type="text" placeholder="MM/YY" class="p-3 border rounded-lg bg-gray-50 font-mono dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                        <input type="text" placeholder="CVC" class="p-3 border rounded-lg bg-gray-50 font-mono dark:bg-slate-700 dark:border-slate-600 dark:text-white">
                     </div>
                 </div>
                 <button @click="navigate('confirmation')" class="w-full py-4 bg-primary text-white font-bold rounded-xl text-lg hover:bg-indigo-700 shadow-lg">Pay $49.00</button>
             </div>
             <div class="lg:col-span-5 mt-8 lg:mt-0">
-                <div class="bg-white p-6 rounded-2xl border border-gray-200">
-                    <h3 class="font-bold mb-4">Order Summary</h3>
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 dark:bg-slate-800 dark:border-slate-700">
+                    <h3 class="font-bold mb-4 dark:text-white">Order Summary</h3>
                     <div class="flex gap-4 mb-4">
-                        <div class="w-16 h-16 bg-gray-100 rounded-lg"><img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover rounded-lg"></div>
-                        <div><p class="font-bold text-slate-900">Tech Nomad Box</p><p class="text-sm text-gray-500">Monthly Plan</p></div>
-                        <div class="ml-auto font-bold">$49.00</div>
+                        <div class="w-16 h-16 bg-gray-100 rounded-lg dark:bg-slate-700"><img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover rounded-lg"></div>
+                        <div><p class="font-bold text-slate-900 dark:text-white">Tech Nomad Box</p><p class="text-sm text-gray-500 dark:text-gray-400">Monthly Plan</p></div>
+                        <div class="ml-auto font-bold dark:text-white">$49.00</div>
                     </div>
-                    <div class="border-t pt-4 flex justify-between font-bold text-lg"><span>Total</span><span>$49.00</span></div>
+                    <div class="border-t pt-4 flex justify-between font-bold text-lg dark:border-slate-600 dark:text-white"><span>Total</span><span>$49.00</span></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div x-show="view === 'confirmation'" class="min-h-screen flex items-center justify-center bg-gray-50 px-4" x-init="$watch('view', value => { if(value === 'confirmation') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }) })">
-        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12 text-center max-w-lg w-full animate-slide-up">
-            <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6"><i class="ph ph-check-circle text-5xl"></i></div>
-            <h1 class="text-3xl font-extrabold text-slate-900 mb-2">Order Confirmed!</h1>
-            <p class="text-gray-500 mb-8">Thank you, Alex. Your box is being curated.</p>
-            <button @click="navigate('dashboard')" class="w-full py-4 bg-dark text-white font-bold rounded-xl hover:bg-slate-800 transition">Go to Dashboard</button>
+    <div x-show="view === 'confirmation'" class="min-h-screen flex items-center justify-center bg-gray-50 px-4 dark:bg-slate-900" x-init="$watch('view', value => { if(value === 'confirmation') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }) })">
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12 text-center max-w-lg w-full animate-slide-up dark:bg-slate-800 dark:border-slate-700">
+            <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 dark:bg-emerald-900/30"><i class="ph ph-check-circle text-5xl"></i></div>
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-2 dark:text-white">Order Confirmed!</h1>
+            <p class="text-gray-500 mb-8 dark:text-gray-400">Thank you, Alex. Your box is being curated.</p>
+            <button @click="navigate('dashboard')" class="w-full py-4 bg-dark text-white font-bold rounded-xl hover:bg-slate-800 transition dark:bg-white dark:text-slate-900">Go to Dashboard</button>
         </div>
     </div>
 
-    <div x-show="view === 'dashboard'" x-cloak class="min-h-screen flex bg-gray-50">
-        <aside class="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col fixed h-full z-20">
-            <div class="h-20 flex items-center px-8 border-b border-gray-100"><span class="text-2xl font-bold text-primary">Stackly.</span></div>
+    <div x-show="view === 'dashboard'" x-cloak class="min-h-screen flex bg-gray-50 dark:bg-slate-900">
+        <aside class="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col fixed h-full z-20 dark:bg-slate-800 dark:border-slate-700">
+            <div class="h-20 flex items-center px-8 border-b border-gray-100 dark:border-slate-700"><span class="text-2xl font-bold text-primary dark:text-white">Stackly.</span></div>
             <nav class="p-4 space-y-1">
-                <button @click="dashTab = 'overview'" :class="dashTab === 'overview' ? 'bg-indigo-50 text-primary' : 'text-gray-600 hover:bg-gray-50'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-squares-four text-xl"></i> Overview</button>
-                <button @click="dashTab = 'boxes'" :class="dashTab === 'boxes' ? 'bg-indigo-50 text-primary' : 'text-gray-600 hover:bg-gray-50'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-package text-xl"></i> My Boxes</button>
-                <button @click="dashTab = 'billing'" :class="dashTab === 'billing' ? 'bg-indigo-50 text-primary' : 'text-gray-600 hover:bg-gray-50'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-credit-card text-xl"></i> Billing</button>
-                <button @click="dashTab = 'settings'" :class="dashTab === 'settings' ? 'bg-indigo-50 text-primary' : 'text-gray-600 hover:bg-gray-50'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-gear text-xl"></i> Settings</button>
+                <button @click="dashTab = 'overview'" :class="dashTab === 'overview' ? 'bg-indigo-50 text-primary dark:bg-indigo-900/30 dark:text-indigo-300' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-slate-700'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-squares-four text-xl"></i> Overview</button>
+                <button @click="dashTab = 'boxes'" :class="dashTab === 'boxes' ? 'bg-indigo-50 text-primary dark:bg-indigo-900/30 dark:text-indigo-300' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-slate-700'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-package text-xl"></i> My Boxes</button>
+                <button @click="dashTab = 'billing'" :class="dashTab === 'billing' ? 'bg-indigo-50 text-primary dark:bg-indigo-900/30 dark:text-indigo-300' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-slate-700'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-credit-card text-xl"></i> Billing</button>
+                <button @click="dashTab = 'settings'" :class="dashTab === 'settings' ? 'bg-indigo-50 text-primary dark:bg-indigo-900/30 dark:text-indigo-300' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-slate-700'" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition"><i class="ph ph-gear text-xl"></i> Settings</button>
             </nav>
-            <div class="mt-auto p-4 border-t border-gray-100"><div class="flex items-center gap-3 p-2 cursor-pointer hover:bg-gray-50 rounded-xl" @click="logout()"><img src="https://ui-avatars.com/api/?name=Alex+Doe&background=c7d2fe&color=3730a3" class="w-9 h-9 rounded-full"><div class="text-xs"><p class="font-bold text-slate-900">Alex Doe</p><p class="text-gray-400">Sign Out</p></div></div></div>
+            <div class="mt-auto p-4 border-t border-gray-100 dark:border-slate-700"><div class="flex items-center gap-3 p-2 cursor-pointer hover:bg-gray-50 rounded-xl dark:hover:bg-slate-700" @click="logout()"><img src="https://ui-avatars.com/api/?name=Alex+Doe&background=c7d2fe&color=3730a3" class="w-9 h-9 rounded-full"><div class="text-xs"><p class="font-bold text-slate-900 dark:text-white">Alex Doe</p><p class="text-gray-400">Sign Out</p></div></div></div>
         </aside>
 
-        <main class="lg:pl-64 flex-1 p-6 lg:p-10">
-            <div x-show="dashTab === 'overview'" class="animate-fade-in">
-                <h1 class="text-2xl font-bold text-slate-900 mb-6">Dashboard</h1>
-                <div class="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 lg:p-8 mb-8 relative overflow-hidden">
-                    <div class="flex flex-col md:flex-row gap-8 items-center">
-                        <div class="w-full md:w-1/3"><img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=600" class="rounded-2xl shadow-lg"></div>
-                        <div class="flex-1 w-full">
-                            <h2 class="text-2xl font-extrabold text-slate-900 mb-2">October: "Autumn Focus"</h2>
-                            <p class="text-gray-500 mb-6">Estimated delivery: Oct 15 - Oct 18</p>
-                            <div class="relative pt-6 pb-2"><div class="h-2 bg-gray-100 rounded-full mb-2 overflow-hidden"><div class="h-full bg-primary w-1/2 rounded-full"></div></div><div class="flex justify-between text-xs font-bold text-gray-400"><span class="text-primary">Curated</span><span class="text-primary">Processing</span><span>Shipped</span><span>Delivered</span></div></div>
+        <main class="lg:pl-64 flex-1">
+            <div class="lg:hidden bg-white p-4 flex justify-between items-center border-b border-gray-200 dark:bg-slate-800 dark:border-slate-700">
+                <span class="font-bold text-xl text-primary dark:text-white">Stackly.</span>
+                <button @click="logout()" class="dark:text-white"><i class="ph ph-sign-out text-xl"></i></button>
+            </div>
+
+            <div class="p-6 lg:p-10 max-w-6xl mx-auto">
+                
+                <div x-show="dashTab === 'overview'" class="animate-fade-in">
+                    <h1 class="text-2xl font-bold text-slate-900 mb-6 dark:text-white">Dashboard</h1>
+                    
+                    <div class="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 lg:p-8 mb-8 relative overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                        <div class="absolute top-0 right-0 bg-indigo-50 text-primary text-xs font-bold px-4 py-2 rounded-bl-xl dark:bg-indigo-900/50 dark:text-indigo-300">PROCESSING</div>
+                        <div class="flex flex-col md:flex-row gap-8 items-center">
+                            <div class="w-full md:w-1/3">
+                                <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=600" class="rounded-2xl shadow-lg transform -rotate-2 hover:rotate-0 transition">
+                            </div>
+                            <div class="flex-1 w-full">
+                                <h2 class="text-2xl font-extrabold text-slate-900 mb-2 dark:text-white">October: "Autumn Focus"</h2>
+                                <p class="text-gray-500 mb-6 dark:text-gray-400">Estimated delivery: Oct 15 - Oct 18</p>
+                                
+                                <div class="relative pt-6 pb-2">
+                                    <div class="h-2 bg-gray-100 rounded-full mb-2 overflow-hidden dark:bg-slate-700">
+                                        <div class="h-full bg-primary w-1/2 rounded-full"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs font-bold text-gray-400">
+                                        <span class="text-primary">Curated</span>
+                                        <span class="text-primary">Processing</span>
+                                        <span>Shipped</span>
+                                        <span>Delivered</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 flex gap-3">
+                                    <button class="px-5 py-2 bg-dark text-white rounded-lg text-sm font-bold shadow-lg hover:bg-slate-800 dark:bg-white dark:text-slate-900">Track Package</button>
+                                    <button class="px-5 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-bold hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700" @click="notify('Skipped October Box!')">Skip Month</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                            <p class="text-xs font-bold text-gray-400 uppercase">Loyalty Points</p>
+                            <h3 class="text-3xl font-extrabold text-slate-900 mt-1 dark:text-white">1,250</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                            <p class="text-xs font-bold text-gray-400 uppercase">Boxes Received</p>
+                            <h3 class="text-3xl font-extrabold text-slate-900 mt-1 dark:text-white">8</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                            <p class="text-xs font-bold text-gray-400 uppercase">Referral Credit</p>
+                            <h3 class="text-3xl font-extrabold text-slate-900 mt-1 dark:text-white">$40.00</h3>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div x-show="dashTab === 'boxes'" class="animate-fade-in" x-cloak>
-                <h1 class="text-2xl font-bold text-slate-900 mb-6">Collection History</h1>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition"><div class="h-48 bg-gray-100 relative"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover"><span class="absolute top-3 right-3 bg-white/90 px-2 py-1 text-xs font-bold rounded">Sep 2024</span></div><div class="p-5"><h3 class="font-bold text-lg">The Cozy Desk</h3></div></div>
-                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition"><div class="h-48 bg-gray-100 relative"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover"><span class="absolute top-3 right-3 bg-white/90 px-2 py-1 text-xs font-bold rounded">Aug 2024</span></div><div class="p-5"><h3 class="font-bold text-lg">Summer Tech</h3></div></div>
+                <div x-show="dashTab === 'boxes'" class="animate-fade-in" x-cloak>
+                    <h1 class="text-2xl font-bold text-slate-900 mb-6 dark:text-white">Collection History</h1>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition dark:bg-slate-800 dark:border-slate-700">
+                            <div class="h-48 bg-gray-100 relative">
+                                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover">
+                                <span class="absolute top-3 right-3 bg-white/90 px-2 py-1 text-xs font-bold rounded">Sep 2024</span>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-lg dark:text-white">The Cozy Desk</h3>
+                                <div class="flex text-yellow-400 text-xs mb-3"><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i></div>
+                                <button class="w-full py-2 bg-indigo-50 text-primary font-bold rounded-lg text-sm dark:bg-indigo-900/30">View Items</button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition dark:bg-slate-800 dark:border-slate-700">
+                            <div class="h-48 bg-gray-100 relative">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover">
+                                <span class="absolute top-3 right-3 bg-white/90 px-2 py-1 text-xs font-bold rounded">Aug 2024</span>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-lg dark:text-white">Summer Tech</h3>
+                                <div class="flex text-gray-300 text-xs mb-3"><i class="ph ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i></div>
+                                <button class="w-full py-2 border border-gray-200 text-gray-600 font-bold rounded-lg text-sm hover:bg-gray-50 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">Rate Box</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div x-show="dashTab === 'billing'" class="animate-fade-in" x-cloak>
-                <h1 class="text-2xl font-bold text-slate-900 mb-6">Billing</h1>
-                <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8 flex justify-between items-center">
-                    <div><span class="px-3 py-1 bg-indigo-100 text-primary text-xs font-bold rounded-full">CURRENT</span><h2 class="text-3xl font-extrabold text-slate-900 mt-2">Enthusiast</h2><p class="text-gray-500">$49/month</p></div>
-                    <button class="text-primary font-bold text-sm hover:underline">Change Plan</button>
+                <div x-show="dashTab === 'billing'" class="animate-fade-in" x-cloak>
+                    <h1 class="text-2xl font-bold text-slate-900 mb-6 dark:text-white">Billing</h1>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8 flex justify-between items-center dark:bg-slate-800 dark:border-slate-700">
+                        <div>
+                            <span class="px-3 py-1 bg-indigo-100 text-primary text-xs font-bold rounded-full dark:bg-indigo-900/30">CURRENT</span>
+                            <h2 class="text-3xl font-extrabold text-slate-900 mt-2 dark:text-white">Enthusiast</h2>
+                            <p class="text-gray-500 dark:text-gray-400">$49/month • Next billing Oct 15</p>
+                        </div>
+                        <button class="text-primary font-bold text-sm hover:underline">Change Plan</button>
+                    </div>
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 text-white p-6 rounded-xl flex justify-between items-center max-w-md shadow-lg">
+                        <div class="flex gap-4 items-center">
+                            <i class="ph ph-credit-card text-3xl opacity-80"></i>
+                            <div>
+                                <p class="font-mono text-lg">•••• 4242</p>
+                                <p class="text-xs text-gray-400">Expires 12/26</p>
+                            </div>
+                        </div>
+                        <button class="text-sm font-bold bg-white/20 px-3 py-1 rounded hover:bg-white/30 transition">Update</button>
+                    </div>
                 </div>
-            </div>
-            
-            <div x-show="dashTab === 'settings'" class="animate-fade-in" x-cloak>
-                <h1 class="text-2xl font-bold text-slate-900 mb-6">Settings</h1>
-                <div class="bg-white rounded-2xl border border-gray-200 p-8 space-y-4">
-                    <input type="text" value="Alex" class="w-full border rounded-lg p-3">
-                    <input type="text" value="Doe" class="w-full border rounded-lg p-3">
-                    <button class="bg-primary text-white px-6 py-2 rounded-lg font-bold">Save</button>
+                
+                <div x-show="dashTab === 'settings'" class="animate-fade-in" x-cloak>
+                    <h1 class="text-2xl font-bold text-slate-900 mb-6 dark:text-white">Settings</h1>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8 space-y-4 dark:bg-slate-800 dark:border-slate-700">
+                        <input type="text" value="Alex" class="w-full border rounded-lg p-3 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                        <input type="text" value="Doe" class="w-full border rounded-lg p-3 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                        <button class="bg-primary text-white px-6 py-2 rounded-lg font-bold" @click="notify('Settings saved!')">Save</button>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <div x-show="view === 'admin'" x-cloak class="min-h-screen flex bg-gray-50">
+    <div x-show="view === 'admin'" x-cloak class="min-h-screen flex bg-gray-50 dark:bg-slate-900">
         <aside class="w-64 bg-dark text-gray-400 flex flex-col fixed h-full z-20">
-            <div class="h-20 flex items-center px-6 border-b border-gray-800"><span class="text-white font-bold text-xl flex items-center gap-2"><div class="w-5 h-5 rounded bg-primary"></div> Stackly Admin</span></div>
+            <div class="h-20 flex items-center px-6 border-b border-gray-800">
+                <span class="text-white font-bold text-xl flex items-center gap-2"><div class="w-5 h-5 rounded bg-primary"></div> Stackly Admin</span>
+            </div>
             <nav class="p-4 space-y-1">
                 <button @click="adminTab = 'analytics'" :class="adminTab === 'analytics' ? 'bg-primary text-white' : 'hover:text-white'" class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg"><i class="ph ph-chart-line-up text-lg"></i> Analytics</button>
                 <button @click="adminTab = 'inventory'" :class="adminTab === 'inventory' ? 'bg-primary text-white' : 'hover:text-white'" class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg"><i class="ph ph-cube text-lg"></i> Inventory</button>
             </nav>
-            <div class="mt-auto p-4 border-t border-gray-800"><button @click="navigate('home')" class="flex items-center gap-2 text-sm hover:text-white"><i class="ph ph-arrow-left"></i> Exit</button></div>
+            <div class="mt-auto p-4 border-t border-gray-800">
+                <button @click="navigate('home')" class="flex items-center gap-2 text-sm hover:text-white"><i class="ph ph-arrow-left"></i> Exit to App</button>
+            </div>
         </aside>
 
         <main class="lg:pl-64 flex-1 p-8">
             <div x-show="adminTab === 'analytics'" class="animate-fade-in">
-                <h1 class="text-2xl font-bold text-slate-900 mb-8">Admin Overview</h1>
+                <h1 class="text-2xl font-bold text-slate-900 mb-8 dark:text-white">Admin Overview</h1>
                 <div class="grid grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm"><p class="text-xs font-bold text-gray-400 uppercase">MRR</p><h3 class="text-2xl font-extrabold text-slate-900">$42,500</h3></div>
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm"><p class="text-xs font-bold text-gray-400 uppercase">Active Subs</p><h3 class="text-2xl font-extrabold text-slate-900">1,240</h3></div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase">MRR</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">$42,500</h3>
+                        <span class="text-emerald-600 text-sm font-bold flex items-center gap-1"><i class="ph ph-trend-up"></i> 12%</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase">Active Subs</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">1,240</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase">Churn</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">2.1%</h3>
+                        <span class="text-red-500 text-sm font-bold flex items-center gap-1"><i class="ph ph-trend-up"></i> +0.4%</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p class="text-xs font-bold text-gray-400 uppercase">Inventory</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white">Healthy</h3>
+                    </div>
                 </div>
             </div>
             
             <div x-show="adminTab === 'inventory'" class="animate-fade-in" x-cloak>
-                 <h1 class="text-2xl font-bold text-slate-900 mb-8">Inventory</h1>
-                 <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                    <table class="w-full text-left text-sm text-gray-600">
-                        <thead class="bg-gray-50 text-xs uppercase font-bold text-gray-400"><tr><th class="px-6 py-4">Item</th><th class="px-6 py-4">Stock</th><th class="px-6 py-4">Status</th></tr></thead>
+                 <h1 class="text-2xl font-bold text-slate-900 mb-8 dark:text-white">Inventory</h1>
+                 <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                    <table class="w-full text-left text-sm text-gray-600 dark:text-gray-400">
+                        <thead class="bg-gray-50 text-xs uppercase font-bold text-gray-400 dark:bg-slate-700"><tr><th class="px-6 py-4">Item</th><th class="px-6 py-4">Stock</th><th class="px-6 py-4">Status</th></tr></thead>
                         <tbody>
-                            <tr class="border-b border-gray-50"><td class="px-6 py-4 font-bold">Desk Mat</td><td class="px-6 py-4">450</td><td class="px-6 py-4 text-emerald-600 font-bold">Good</td></tr>
-                            <tr><td class="px-6 py-4 font-bold">Fidget Key</td><td class="px-6 py-4">15</td><td class="px-6 py-4 text-red-600 font-bold">Low</td></tr>
+                            <tr class="border-b border-gray-50 dark:border-slate-700"><td class="px-6 py-4 font-bold dark:text-white">Desk Mat</td><td class="px-6 py-4">450</td><td class="px-6 py-4 text-emerald-600 font-bold">Good</td></tr>
+                            <tr><td class="px-6 py-4 font-bold dark:text-white">Fidget Key</td><td class="px-6 py-4">15</td><td class="px-6 py-4 text-red-600 font-bold">Low</td></tr>
                         </tbody>
                     </table>
                  </div>
@@ -451,9 +437,9 @@
     </div>
 
     <div x-show="view === 'blog'" x-cloak class="pt-20 min-h-screen">
-        <div class="bg-white border-b border-gray-100 py-16 text-center animate-fade-in">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">The Stackly Journal</h1>
-            <p class="text-lg text-gray-500 max-w-xl mx-auto">Insights on productivity, tech, and the art of the perfect desk setup.</p>
+        <div class="bg-white border-b border-gray-100 py-16 text-center animate-fade-in dark:bg-slate-900 dark:border-slate-800">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 dark:text-white">The Stackly Journal</h1>
+            <p class="text-lg text-gray-500 max-w-xl mx-auto dark:text-gray-400">Insights on productivity, tech, and the art of the perfect desk setup.</p>
         </div>
         <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div class="lg:col-span-8">
@@ -476,89 +462,7 @@
         </div>
     </div>
 
-    <div x-show="view === 'blog-detail'" x-cloak class="pt-20 min-h-screen">
-        <div class="max-w-4xl mx-auto px-6 py-12 animate-fade-in">
-            <button @click="navigate('blog')" class="text-sm font-bold text-gray-500 hover:text-primary mb-8 flex items-center gap-2"><i class="ph ph-arrow-left"></i> Back to Journal</button>
-            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">The Ultimate Guide to Minimalist Desk Setups</h1>
-            <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80&w=1200" class="w-full rounded-2xl shadow-lg mb-10">
-            <article class="prose prose-lg prose-indigo text-gray-600 font-serif max-w-none">
-                <p>Minimalism isn't about having nothing; it's about having no distractions. Start small, remove one item today, and see how your focus improves.</p>
-            </article>
-        </div>
-    </div>
-
-    <div x-show="view === 'about'" x-cloak class="pt-20 min-h-screen">
-        <section class="pt-20 pb-20 bg-gray-50 overflow-hidden relative">
-            <div class="blob bg-indigo-400 w-96 h-96 rounded-full top-0 right-0 opacity-20"></div>
-            <div class="max-w-4xl mx-auto px-6 text-center relative z-10 animate-fade-in">
-                <span class="text-primary font-bold tracking-wider uppercase mb-4 block text-sm">Our Mission</span>
-                <h1 class="text-5xl font-extrabold text-slate-900 mb-8 leading-tight">Curating joy in a <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500">digital world.</span></h1>
-            </div>
-        </section>
-        <section class="py-24 max-w-7xl mx-auto px-6">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="relative group animate-slide-up">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" class="relative rounded-2xl shadow-2xl w-full rotate-2 group-hover:rotate-0 transition duration-500">
-                </div>
-                <div class="space-y-6 animate-slide-up" style="animation-delay: 0.2s;">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Built by creators, for creators.</h2>
-                    <p class="text-lg text-slate-500 leading-relaxed">Founded in 2022, Stackly began in a small garage in Seattle. We were tired of "mystery boxes" that were filled with junk inventory. We wanted a subscription that actually added value to our workflow.</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div x-show="view === 'contact'" x-cloak class="pt-20 min-h-screen">
-        <section class="pt-20 pb-16 bg-gray-50 text-center animate-fade-in"><h1 class="text-4xl font-extrabold text-slate-900 mb-4">How can we help?</h1></section>
-        <section class="py-16 max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-12">
-            <div class="lg:col-span-1 space-y-6 animate-slide-up">
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm"><i class="ph ph-envelope-simple text-3xl text-primary mb-4"></i><h3 class="font-bold text-slate-900">Email Support</h3><p class="text-sm text-gray-500">support@stackly.com</p></div>
-            </div>
-            <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl border border-gray-100 p-8 animate-slide-up" style="animation-delay: 0.2s;">
-                <form @submit.prevent="notify('Message Sent!'); navigate('home')" class="space-y-6">
-                    <input type="email" placeholder="Email Address" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none" required>
-                    <textarea rows="5" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary outline-none" placeholder="Message" required></textarea>
-                    <button type="submit" class="w-full py-4 bg-primary text-white font-bold rounded-xl text-lg hover:bg-indigo-700 transition shadow-lg">Send Message</button>
-                </form>
-            </div>
-        </section>
-    </div>
-
-    <div x-show="view === 'gift'" x-cloak class="pt-20 min-h-screen" x-data="{ giftPlan: '3-months' }">
-        <div class="max-w-4xl mx-auto px-4 py-16 animate-fade-in">
-            <div class="text-center mb-12">
-                <span class="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Gift Subscription</span>
-                <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Give the gift of discovery.</h1>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6 mb-12">
-                <div @click="giftPlan = '1-month'" class="bg-white rounded-2xl p-6 border-2 cursor-pointer transition relative" :class="giftPlan === '1-month' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-gray-100 hover:border-gray-200'">
-                    <h3 class="font-bold text-slate-900 text-lg">1 Month</h3><p class="text-3xl font-extrabold text-slate-900 mt-2">$55</p>
-                </div>
-                <div @click="giftPlan = '3-months'" class="bg-white rounded-2xl p-6 border-2 cursor-pointer transition relative overflow-hidden" :class="giftPlan === '3-months' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-gray-100 hover:border-gray-200'">
-                    <div class="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">POPULAR</div>
-                    <h3 class="font-bold text-slate-900 text-lg">3 Months</h3><p class="text-3xl font-extrabold text-slate-900 mt-2">$150</p>
-                </div>
-                <div @click="giftPlan = '6-months'" class="bg-white rounded-2xl p-6 border-2 cursor-pointer transition relative" :class="giftPlan === '6-months' ? 'border-primary ring-4 ring-primary/10 shadow-xl' : 'border-gray-100 hover:border-gray-200'">
-                    <h3 class="font-bold text-slate-900 text-lg">6 Months</h3><p class="text-3xl font-extrabold text-slate-900 mt-2">$280</p>
-                </div>
-            </div>
-            <div class="flex justify-end"><button @click="navigate('checkout')" class="px-8 py-4 bg-primary text-white font-bold rounded-xl text-lg hover:bg-indigo-700 transition shadow-lg">Checkout</button></div>
-        </div>
-    </div>
-    
-    <div x-show="view === '404'" x-cloak class="h-screen flex flex-col items-center justify-center text-center">
-        <i class="ph ph-warning text-6xl text-orange-400 mb-4"></i>
-        <h1 class="text-4xl font-bold text-slate-900">404 Not Found</h1>
-        <button @click="navigate('home')" class="mt-4 text-primary font-bold hover:underline">Go Home</button>
-    </div>
-
-    <div x-show="view === 'coming-soon'" x-cloak class="h-screen flex flex-col items-center justify-center text-center bg-dark text-white">
-        <h1 class="text-5xl font-bold mb-4">Coming Soon</h1>
-        <p class="text-indigo-200">We are building something amazing.</p>
-        <button @click="navigate('home')" class="mt-8 text-white border border-white/20 px-6 py-2 rounded-full hover:bg-white/10">Back</button>
-    </div>
-
-    <div x-show="notification" x-transition class="fixed bottom-6 right-6 bg-dark text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 z-50">
+    <div x-show="notification" x-transition class="fixed bottom-6 right-6 bg-dark text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 z-50 dark:bg-white dark:text-slate-900">
         <i class="ph ph-check-circle text-emerald-400 text-xl"></i>
         <span class="font-bold text-sm" x-text="notification"></span>
     </div>
@@ -567,18 +471,13 @@
         <button class="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition border-2 border-white/20">
             <i class="ph ph-sliders text-xl"></i>
         </button>
-        <div class="absolute bottom-14 left-0 bg-white border border-gray-200 shadow-xl rounded-xl p-2 w-48 hidden group-hover:block animate-fade-in">
+        <div class="absolute bottom-14 left-0 bg-white border border-gray-200 shadow-xl rounded-xl p-2 w-48 hidden group-hover:block animate-fade-in dark:bg-slate-800 dark:border-slate-700">
             <p class="text-[10px] uppercase font-bold text-gray-400 px-2 py-1">Quick Jump</p>
-            <button @click="navigate('home')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">🏠 Home</button>
-            <button @click="navigate('auth')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">🔐 Auth</button>
-            <button @click="navigate('dashboard')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">👤 Subscriber</button>
-            <button @click="navigate('admin')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">⚡ Admin</button>
-            <button @click="navigate('checkout')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">🛒 Checkout</button>
-            <button @click="navigate('blog')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">📰 Blog</button>
-            <button @click="navigate('about')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">ℹ️ About</button>
-            <button @click="navigate('contact')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">📞 Contact</button>
-            <button @click="navigate('404')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">⚠️ 404</button>
-            <button @click="navigate('coming-soon')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold">🚀 Coming Soon</button>
+            <button @click="navigate('home')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold dark:text-white dark:hover:bg-slate-700">🏠 Home</button>
+            <button @click="navigate('auth')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold dark:text-white dark:hover:bg-slate-700">🔐 Auth</button>
+            <button @click="navigate('dashboard')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold dark:text-white dark:hover:bg-slate-700">👤 Subscriber</button>
+            <button @click="navigate('admin')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold dark:text-white dark:hover:bg-slate-700">⚡ Admin</button>
+            <button @click="navigate('checkout')" class="w-full text-left px-2 py-1.5 text-sm hover:bg-gray-50 rounded font-bold dark:text-white dark:hover:bg-slate-700">🛒 Checkout</button>
         </div>
     </div>
 
@@ -588,6 +487,7 @@
                 <div class="col-span-2 md:col-span-1">
                     <span class="text-2xl font-bold tracking-tight">Stackly.</span>
                     <p class="mt-4 text-slate-400 text-sm">Curating joy, one box at a time.</p>
+                    <p class="mt-4 text-xs text-slate-500 font-mono">Powered by ASR</p>
                 </div>
                 <div>
                     <h4 class="text-sm font-bold uppercase text-slate-500 mb-4">Product</h4>
@@ -613,7 +513,7 @@
                 </div>
             </div>
             <div class="border-t border-slate-800 pt-8 text-center text-sm text-slate-500">
-                <p>&copy; 2024 Stackly Inc. All rights reserved.</p>
+                <p>&copy; 2026 Stackly Inc. All rights reserved.</p>
             </div>
         </div>
     </footer>

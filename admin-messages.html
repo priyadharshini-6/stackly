@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly Admin | Messages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: { colors: { primary: '#4F46E5', dark: '#0F172A' } }
+            }
+        }
+    </script>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+        if (localStorage.dir === 'rtl') document.documentElement.setAttribute('dir', 'rtl');
+        else document.documentElement.setAttribute('dir', 'ltr');
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        function toggleRTL() {
+            const html = document.documentElement;
+            if (html.getAttribute('dir') === 'rtl') { html.setAttribute('dir', 'ltr'); localStorage.setItem('dir', 'ltr'); }
+            else { html.setAttribute('dir', 'rtl'); localStorage.setItem('dir', 'rtl'); }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans antialiased flex h-screen dark:bg-slate-900 dark:text-gray-300">
+
+    <aside class="w-64 bg-dark text-gray-400 flex flex-col fixed inset-y-0 left-0 lg:relative">
+        <div class="h-20 flex items-center px-6 border-b border-gray-800">
+            <span class="text-white font-bold text-xl tracking-wide flex items-center gap-2">
+                <div class="w-6 h-6 rounded bg-primary"></div> Stackly.
+            </span>
+        </div>
+        <nav class="flex-1 px-3 py-6 space-y-1">
+            <p class="px-3 text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Overview</p>
+            <a href="admin-dashboard.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:text-white hover:bg-white/5 rounded-lg transition"><i class="ph ph-chart-line-up text-lg"></i> Analytics</a>
+            <a href="admin-users.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:text-white hover:bg-white/5 rounded-lg transition"><i class="ph ph-users text-lg"></i> Subscribers</a>
+            <a href="admin-orders.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:text-white hover:bg-white/5 rounded-lg transition"><i class="ph ph-package text-lg"></i> Shipments</a>
+            
+            <p class="px-3 text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 mt-8">Management</p>
+            <a href="admin-inventory.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:text-white hover:bg-white/5 rounded-lg transition"><i class="ph ph-cube text-lg"></i> Inventory</a>
+            <a href="admin-messages.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium bg-primary text-white rounded-lg transition"><i class="ph ph-envelope text-lg"></i> Messages</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-8 dark:bg-slate-800 dark:border-slate-700">
+            <h2 class="font-bold text-gray-900 dark:text-white">Inbox</h2>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition dark:bg-slate-700 dark:text-gray-300"><i class="ph ph-moon dark:hidden"></i><i class="ph ph-sun hidden dark:inline"></i></button>
+                <button onclick="toggleRTL()" class="p-2 rounded-lg bg-gray-100 text-slate-600 hover:bg-gray-200 transition dark:bg-slate-700 dark:text-gray-300"><i class="ph ph-translate"></i></button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-auto p-8">
+            <h1 class="text-2xl font-bold text-slate-900 mb-4 dark:text-white">Support Tickets</h1>
+            <div class="bg-white p-12 rounded-xl border border-dashed border-gray-300 text-center text-gray-500 dark:bg-slate-800 dark:border-slate-700 dark:text-gray-400">
+                <i class="ph ph-chat-text text-4xl mb-2 text-indigo-300 dark:text-indigo-400"></i>
+                <p>Support & Messaging Center is under development for the 2026 Release.</p>
+                <a href="admin-dashboard.html" class="text-indigo-600 font-bold mt-4 inline-block hover:underline dark:text-indigo-400">Back to Dashboard</a>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500 dark:border-slate-700 dark:text-gray-400">
+                <p>&copy; 2026 Stackly Inc. All rights reserved.</p>
+                <p class="text-xs mt-1 font-mono">Powered by ASR</p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

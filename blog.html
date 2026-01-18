@@ -6,31 +6,96 @@
     <title>Stackly | The Journal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                 extend: { colors: { primary: '#4F46E5', dark: '#0F172A' } }
             }
         }
     </script>
-</head>
-<body class="bg-gray-50 text-slate-600">
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+        if (localStorage.dir === 'rtl') document.documentElement.setAttribute('dir', 'rtl');
+        else document.documentElement.setAttribute('dir', 'ltr');
 
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="index.html" class="font-bold text-2xl text-slate-900">Stackly.</a>
-            <div class="flex items-center gap-6">
-                <a href="index.html" class="text-sm font-medium hover:text-primary">Home</a>
-                <a href="auth.html" class="px-4 py-2 rounded-full bg-dark text-white text-sm font-bold hover:bg-slate-800 transition">Subscribe</a>
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        function toggleRTL() {
+            const html = document.documentElement;
+            if (html.getAttribute('dir') === 'rtl') { html.setAttribute('dir', 'ltr'); localStorage.setItem('dir', 'ltr'); }
+            else { html.setAttribute('dir', 'rtl'); localStorage.setItem('dir', 'rtl'); }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-slate-600 dark:bg-slate-900 dark:text-gray-300" x-data="{ mobileMenuOpen: false }">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur border-b border-gray-100 dark:bg-slate-900/90 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-xl">S</div>
+                    <span class="font-bold text-2xl text-slate-900 dark:text-white">Stackly.</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <div class="relative group">
+                        <button class="flex items-center gap-1 text-sm font-bold text-primary focus:outline-none">
+                            Home <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="absolute top-full left-0 w-40 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-2 group-hover:translate-y-0 dark:bg-slate-800 dark:border-slate-700">
+                            <a href="index.html" class="block px-4 py-3 text-sm font-medium hover:bg-gray-50 rounded-t-xl dark:text-gray-300 dark:hover:bg-slate-700">Home Style 1</a>
+                            <a href="home-2.html" class="block px-4 py-3 text-sm font-medium hover:bg-gray-50 rounded-b-xl dark:text-gray-300 dark:hover:bg-slate-700">Home Style 2</a>
+                        </div>
+                    </div>
+                    <a href="services.html" class="text-sm font-medium hover:text-primary transition">Services</a>
+                    <a href="pricing.html" class="text-sm font-medium hover:text-primary transition">Pricing</a>
+                    <a href="contact.html" class="text-sm font-medium hover:text-primary transition">Contact</a>
+                </div>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 text-slate-600 dark:text-gray-300 dark:hover:bg-slate-800 transition" title="Toggle Theme">
+                        <i class="ph ph-moon dark:hidden"></i>
+                        <i class="ph ph-sun hidden dark:inline"></i>
+                    </button>
+                    <button onclick="toggleRTL()" class="p-2 rounded-full hover:bg-gray-100 text-slate-600 dark:text-gray-300 dark:hover:bg-slate-800 transition" title="Toggle RTL">
+                        <i class="ph ph-translate"></i>
+                    </button>
+                    <div class="h-6 w-px bg-gray-200 dark:bg-slate-700"></div>
+                    <a href="auth.html" class="text-sm font-bold hover:text-primary dark:text-white">Log In</a>
+                    <a href="auth.html" class="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold hover:bg-indigo-600 transition shadow-lg shadow-indigo-500/30">Get Started</a>
+                </div>
+
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-2xl dark:text-white"><i class="ph ph-list"></i></button>
+            </div>
+        </div>
+
+        <div x-show="mobileMenuOpen" class="md:hidden bg-white border-b border-gray-100 p-4 dark:bg-slate-800 dark:border-slate-700">
+            <a href="index.html" class="block py-2 font-bold text-primary">Home 1</a>
+            <a href="home-2.html" class="block py-2 font-medium dark:text-gray-300">Home 2</a>
+            <a href="services.html" class="block py-2 font-medium dark:text-gray-300">Services</a>
+            <a href="pricing.html" class="block py-2 font-medium dark:text-gray-300">Pricing</a>
+            <div class="flex gap-4 mt-4 border-t border-gray-100 pt-4 dark:border-slate-700">
+                <button onclick="toggleTheme()" class="text-sm font-bold flex items-center gap-2 dark:text-white"><i class="ph ph-moon"></i> Theme</button>
+                <button onclick="toggleRTL()" class="text-sm font-bold flex items-center gap-2 dark:text-white"><i class="ph ph-translate"></i> RTL</button>
             </div>
         </div>
     </nav>
 
-    <header class="bg-white border-b border-gray-200 py-16 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">The Stackly Journal</h1>
-        <p class="text-lg text-gray-500 max-w-xl mx-auto">Insights on productivity, tech, and the art of the perfect desk setup.</p>
+    <header class="bg-white border-b border-gray-200 py-16 text-center pt-32 dark:bg-slate-900 dark:border-slate-800">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 dark:text-white">The Stackly Journal</h1>
+        <p class="text-lg text-gray-500 max-w-xl mx-auto dark:text-gray-400">Insights on productivity, tech, and the art of the perfect desk setup.</p>
     </header>
 
     <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -52,8 +117,8 @@
                         <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover transition group-hover:scale-105">
                     </div>
                     <span class="text-xs font-bold text-primary uppercase tracking-wide">Tech</span>
-                    <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2 group-hover:text-primary transition">Top 10 Gadgets under $50</h3>
-                    <p class="text-sm text-gray-500 line-clamp-2">Finding great tech doesn't have to break the bank. Here are our top picks for budget-conscious creators.</p>
+                    <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2 group-hover:text-primary transition dark:text-white">Top 10 Gadgets under $50</h3>
+                    <p class="text-sm text-gray-500 line-clamp-2 dark:text-gray-400">Finding great tech doesn't have to break the bank. Here are our top picks for budget-conscious creators.</p>
                 </a>
 
                 <a href="blog-details.html" class="group">
@@ -61,19 +126,19 @@
                         <img src="https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover transition group-hover:scale-105">
                     </div>
                     <span class="text-xs font-bold text-primary uppercase tracking-wide">Productivity</span>
-                    <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2 group-hover:text-primary transition">Why Mechanical Keyboards Matter</h3>
-                    <p class="text-sm text-gray-500 line-clamp-2">It's not just about the click. It's about ergonomics, speed, and the satisfaction of every keystroke.</p>
+                    <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2 group-hover:text-primary transition dark:text-white">Why Mechanical Keyboards Matter</h3>
+                    <p class="text-sm text-gray-500 line-clamp-2 dark:text-gray-400">It's not just about the click. It's about ergonomics, speed, and the satisfaction of every keystroke.</p>
                 </a>
             </div>
         </div>
 
         <aside class="lg:col-span-4 space-y-8">
-            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                <h3 class="font-bold text-slate-900 mb-4">Categories</h3>
+            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                <h3 class="font-bold text-slate-900 mb-4 dark:text-white">Categories</h3>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="#" class="flex justify-between text-gray-600 hover:text-primary"><span>Tech & Gadgets</span> <span class="bg-gray-100 px-2 rounded text-xs py-0.5">12</span></a></li>
-                    <li><a href="#" class="flex justify-between text-gray-600 hover:text-primary"><span>Lifestyle</span> <span class="bg-gray-100 px-2 rounded text-xs py-0.5">8</span></a></li>
-                    <li><a href="#" class="flex justify-between text-gray-600 hover:text-primary"><span>Productivity</span> <span class="bg-gray-100 px-2 rounded text-xs py-0.5">5</span></a></li>
+                    <li><a href="#" class="flex justify-between text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span>Tech & Gadgets</span> <span class="bg-gray-100 px-2 rounded text-xs py-0.5 dark:bg-slate-700">12</span></a></li>
+                    <li><a href="#" class="flex justify-between text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span>Lifestyle</span> <span class="bg-gray-100 px-2 rounded text-xs py-0.5 dark:bg-slate-700">8</span></a></li>
+                    <li><a href="#" class="flex justify-between text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary"><span>Productivity</span> <span class="bg-gray-100 px-2 rounded text-xs py-0.5 dark:bg-slate-700">5</span></a></li>
                 </ul>
             </div>
 
@@ -87,6 +152,49 @@
         </aside>
 
     </div>
+
+    <footer class="bg-slate-900 text-white pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-2 md:col-span-1">
+                    <span class="text-2xl font-bold tracking-tight">Stackly.</span>
+                    <p class="mt-4 text-slate-400 text-sm">Curating joy, one box at a time.</p>
+                    <p class="mt-4 text-xs text-slate-500 font-mono">Powered by ASR</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-4">Product</h4>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><a href="services.html" class="hover:text-white transition">Services</a></li>
+                        <li><a href="pricing.html" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="gift.html" class="hover:text-white transition">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><a href="contact.html" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition">Terms</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+                <p>&copy; 2026 Stackly Inc. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <i class="ph ph-twitter-logo text-xl hover:text-white cursor-pointer transition"></i>
+                    <i class="ph ph-instagram-logo text-xl hover:text-white cursor-pointer transition"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

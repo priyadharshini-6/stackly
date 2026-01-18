@@ -11,10 +11,11 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                 extend: {
-                    colors: { primary: '#4F46E5', dark: '#0F172A' },
+                    colors: { primary: '#4F46E5', secondary: '#10B981', dark: '#0F172A' },
                     animation: {
                         'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
@@ -22,71 +23,137 @@
             }
         }
     </script>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+        if (localStorage.dir === 'rtl') document.documentElement.setAttribute('dir', 'rtl');
+        else document.documentElement.setAttribute('dir', 'ltr');
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        function toggleRTL() {
+            const html = document.documentElement;
+            if (html.getAttribute('dir') === 'rtl') { html.setAttribute('dir', 'ltr'); localStorage.setItem('dir', 'ltr'); }
+            else { html.setAttribute('dir', 'rtl'); localStorage.setItem('dir', 'rtl'); }
+        }
+    </script>
 </head>
-<body class="bg-dark text-white h-screen overflow-hidden relative flex flex-col" 
-      x-data="timer()">
+<body class="bg-dark text-white h-screen overflow-hidden relative flex flex-col font-sans" x-data="{ mobileMenuOpen: false }">
 
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow" style="animation-delay: 3s;"></div>
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-    </div>
+    <nav class="fixed w-full z-50 bg-dark/90 backdrop-blur border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-xl">S</div>
+                    <span class="font-bold text-2xl text-white">Stackly.</span>
+                </a>
 
-    <header class="relative z-10 p-8 flex justify-between items-center w-full max-w-7xl mx-auto">
-        <div class="flex items-center gap-2">
-            <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-white text-xl">S</div>
-            <span class="font-bold text-2xl tracking-tight">Stackly.</span>
+                <div class="hidden md:flex items-center gap-8">
+                    <div class="relative group">
+                        <button class="flex items-center gap-1 text-sm font-bold text-primary focus:outline-none">
+                            Home <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="absolute top-full left-0 w-40 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-2 group-hover:translate-y-0 dark:bg-slate-800 dark:border-slate-700">
+                            <a href="index.html" class="block px-4 py-3 text-sm font-medium hover:bg-gray-50 rounded-t-xl text-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">Home Style 1</a>
+                            <a href="home-2.html" class="block px-4 py-3 text-sm font-medium hover:bg-gray-50 rounded-b-xl text-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">Home Style 2</a>
+                        </div>
+                    </div>
+                    <a href="services.html" class="text-sm font-medium text-gray-300 hover:text-white transition">Services</a>
+                    <a href="pricing.html" class="text-sm font-medium text-gray-300 hover:text-white transition">Pricing</a>
+                    <a href="contact.html" class="text-sm font-medium text-gray-300 hover:text-white transition">Contact</a>
+                </div>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 text-white transition" title="Toggle Theme">
+                        <i class="ph ph-moon dark:hidden"></i>
+                        <i class="ph ph-sun hidden dark:inline"></i>
+                    </button>
+                    <button onclick="toggleRTL()" class="p-2 rounded-full hover:bg-white/10 text-white transition" title="Toggle RTL">
+                        <i class="ph ph-translate"></i>
+                    </button>
+                    <div class="h-6 w-px bg-white/20"></div>
+                    <a href="auth.html" class="text-sm font-bold hover:text-primary text-white">Log In</a>
+                    <a href="auth.html" class="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold hover:bg-indigo-600 transition shadow-lg shadow-indigo-500/30">Get Started</a>
+                </div>
+
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-2xl text-white"><i class="ph ph-list"></i></button>
+            </div>
         </div>
-        <a href="contact.html" class="text-sm font-medium text-gray-400 hover:text-white transition">Contact Us</a>
-    </header>
 
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4">
+        <div x-show="mobileMenuOpen" class="md:hidden bg-slate-900 border-b border-white/10 p-4">
+            <a href="index.html" class="block py-2 font-bold text-primary">Home 1</a>
+            <a href="home-2.html" class="block py-2 font-medium text-gray-300">Home 2</a>
+            <a href="services.html" class="block py-2 font-medium text-gray-300">Services</a>
+            <a href="pricing.html" class="block py-2 font-medium text-gray-300">Pricing</a>
+            <div class="flex gap-4 mt-4 border-t border-white/10 pt-4">
+                <button onclick="toggleTheme()" class="text-sm font-bold flex items-center gap-2 text-white"><i class="ph ph-moon"></i> Theme</button>
+                <button onclick="toggleRTL()" class="text-sm font-bold flex items-center gap-2 text-white"><i class="ph ph-translate"></i> RTL</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 pt-20" x-data="timer()">
         
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md shadow-lg animate-bounce">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10B981]"></span>
-            <span class="text-xs font-bold tracking-widest uppercase text-gray-300">System Upgrade In Progress</span>
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow" style="animation-delay: 3s;"></div>
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         </div>
 
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
-            Unboxing the Future.
-        </h1>
-        
-        <p class="text-lg md:text-xl text-indigo-200/80 mb-12 max-w-xl mx-auto leading-relaxed">
-            We are curating the ultimate tech experience. Join the waitlist to get early access and a <span class="text-white font-bold border-b border-primary">20% lifetime discount</span>.
-        </p>
+        <div class="relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md shadow-lg animate-bounce">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10B981]"></span>
+                <span class="text-xs font-bold tracking-widest uppercase text-gray-300">System Upgrade In Progress</span>
+            </div>
 
-        <div class="grid grid-cols-4 gap-4 md:gap-12 mb-16">
-            <div class="flex flex-col items-center">
-                <span class="text-4xl md:text-6xl font-mono font-bold" x-text="days">00</span>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Days</span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
+                Unboxing the Future.
+            </h1>
+            
+            <p class="text-lg md:text-xl text-indigo-200/80 mb-12 max-w-xl mx-auto leading-relaxed">
+                We are curating the ultimate tech experience. Join the waitlist to get early access and a <span class="text-white font-bold border-b border-primary">20% lifetime discount</span>.
+            </p>
+
+            <div class="grid grid-cols-4 gap-4 md:gap-12 mb-16 max-w-3xl mx-auto">
+                <div class="flex flex-col items-center">
+                    <span class="text-4xl md:text-6xl font-mono font-bold" x-text="days">00</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Days</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-4xl md:text-6xl font-mono font-bold" x-text="hours">00</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Hours</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-4xl md:text-6xl font-mono font-bold" x-text="minutes">00</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Mins</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-4xl md:text-6xl font-mono font-bold text-primary" x-text="seconds">00</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Secs</span>
+                </div>
             </div>
-            <div class="flex flex-col items-center">
-                <span class="text-4xl md:text-6xl font-mono font-bold" x-text="hours">00</span>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Hours</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <span class="text-4xl md:text-6xl font-mono font-bold" x-text="minutes">00</span>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Mins</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <span class="text-4xl md:text-6xl font-mono font-bold text-primary" x-text="seconds">00</span>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Secs</span>
-            </div>
+
+            <form class="w-full max-w-md mx-auto flex flex-col sm:flex-row gap-3 relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+                <input type="email" placeholder="Enter your email address" required
+                       class="flex-1 bg-dark border border-white/20 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition relative z-10">
+                <button type="submit" class="px-8 py-4 bg-white text-dark font-bold rounded-xl hover:bg-gray-100 transition shadow-xl relative z-10 whitespace-nowrap">
+                    Notify Me
+                </button>
+            </form>
         </div>
-
-        <form class="w-full max-w-md flex flex-col sm:flex-row gap-3 relative group">
-            <div class="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
-            <input type="email" placeholder="Enter your email address" required
-                   class="flex-1 bg-dark border border-white/20 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition relative z-10">
-            <button type="submit" class="px-8 py-4 bg-white text-dark font-bold rounded-xl hover:bg-gray-100 transition shadow-xl relative z-10 whitespace-nowrap">
-                Notify Me
-            </button>
-        </form>
 
     </main>
 
-    <footer class="relative z-10 p-8 text-center">
-        <p class="text-gray-500 text-sm">&copy; 2024 Stackly Inc. All rights reserved.</p>
+    <footer class="relative z-10 p-8 text-center border-t border-white/5 mt-auto bg-dark">
+        <p class="text-gray-500 text-sm">&copy; 2026 Stackly Inc. All rights reserved. Powered by ASR</p>
         <div class="flex justify-center gap-6 mt-4">
             <a href="#" class="text-gray-500 hover:text-white transition"><i class="ph ph-twitter-logo text-xl"></i></a>
             <a href="#" class="text-gray-500 hover:text-white transition"><i class="ph ph-instagram-logo text-xl"></i></a>
